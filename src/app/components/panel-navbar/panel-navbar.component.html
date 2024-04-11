@@ -10,7 +10,7 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">HogarCompartido</a>
+    <a class="navbar-brand" href="/landing">HogarCompartido</a>
     <fa-icon [icon]="faBell" size="lg" class="bell-icon-style"></fa-icon>
     <div
       class="offcanvas offcanvas-start text-bg-dark d-flex flex-column"
@@ -20,37 +20,7 @@
     >
       <div class="offcanvas-header border-bottom">
         <div class="mb-auto p-3">
-          <div class="dropdown">
-            <a
-              class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-              href="#"
-              id="dropdownUser2"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <img
-                src="https://github.com/mdo.png"
-                alt=""
-                width="32"
-                height="32"
-                class="rounded-circle me-2"
-              />
-              Pedro Martínez
-            </a>
-            <ul
-              class="dropdown-menu text-small shadow"
-              aria-labelledby="dropdownUser2"
-            >
-              <li>
-                <a class="dropdown-item" routerLink="/profile">Perfil</a>
-              </li>
-              <li>
-                <a class="dropdown-item" role="button" (click)="logout()"
-                  >Cerrar sesión</a
-                >
-              </li>
-            </ul>
-          </div>
+          <app-dropdown></app-dropdown>
         </div>
         <button
           type="button"

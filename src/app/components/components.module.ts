@@ -5,6 +5,7 @@ import { ButtonModule } from './button/button.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { FooterModule } from './footer/footer.module';
 import { PanelNavbarModule } from './panel-navbar/panel-navbar.module';
+import { DropdownModule } from './dropdown/dropdown.module';
 
 @NgModule({
   declarations: [],
@@ -15,6 +16,7 @@ import { PanelNavbarModule } from './panel-navbar/panel-navbar.module';
     NavbarModule,
     PanelNavbarModule,
     FooterModule,
+    DropdownModule,
   ],
   exports: [
     CardModule,
@@ -22,6 +24,7 @@ import { PanelNavbarModule } from './panel-navbar/panel-navbar.module';
     NavbarModule,
     PanelNavbarModule,
     FooterModule,
+    DropdownModule,
   ],
   providers: [],
 })

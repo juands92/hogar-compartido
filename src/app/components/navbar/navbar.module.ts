@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar.component';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ComponentsModule } from '../components.module';
+import { DropdownModule } from '../dropdown/dropdown.module';
 
 @NgModule({
   declarations: [NavbarComponent],
-  imports: [CommonModule, RouterModule, FontAwesomeModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, DropdownModule],
   exports: [NavbarComponent],
   providers: [],
 })
