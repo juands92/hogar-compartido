@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/landing">HogarCompartido</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <!-- Verifica si isAuthenticated$ -->
+          <!-- <a
+            *ngIf="isAuthenticated$ | async; else loginLink"
+            class="btn btn-link nav-link"
+            routerLink="/profile"
+            role="button"
+          >
+            <fa-icon [icon]="faUser" size="lg" class="icon-style"></fa-icon>
+          </a> -->
+          <div
+            *ngIf="isAuthenticated$ | async; else loginLink"
+            class="dropdown"
+          >
+            <a
+              class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+              href="#"
+              id="dropdownUser2"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="https://github.com/mdo.png"
+                alt=""
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              Pedro Martínez
+            </a>
+            <ul
+              class="dropdown-menu text-small shadow"
+              aria-labelledby="dropdownUser2"
+            >
+              <li>
+                <a class="dropdown-item" routerLink="/profile">Perfil</a>
+              </li>
+              <li>
+                <a class="dropdown-item" role="button" (click)="logout()"
+                  >Cerrar sesión</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Si no muestra el link de login -->
+          <ng-template #loginLink>
+            <a class="nav-link" routerLink="/login">Iniciar Sesión</a>
+          </ng-template>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,10 +1,70 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LandingComponent } from './pages/landing/landing.component';
+import { LoginComponent } from './pages/login/login.component';
+import { OverviewComponent } from './pages/overview/overview.component';
+import { AuthGuard } from './guards/auth.guard';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { HomeComponent } from './pages/home/home.component';
+import { CalendarComponent } from './pages/calendar/calendar.component';
+import { ExpensesComponent } from './pages/expenses/expenses.component';
+import { InventoryComponent } from './pages/inventory/inventory.component';
+import { TasksComponent } from './pages/tasks/tasks.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'landing',
+    pathMatch: 'full',
+  },
+  {
+    path: 'landing',
+    component: LandingComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'overview',
+    component: OverviewComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'calendar',
+    component: CalendarComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'expenses',
+    component: ExpensesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tasks',
+    component: TasksComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'inventory',
+    component: InventoryComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: '**', redirectTo: 'landing' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

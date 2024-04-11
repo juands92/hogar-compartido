@@ -1,0 +1,40 @@
+<app-card [headerTitle]="'Iniciar Sesión'">
+  <form #loginForm="ngForm">
+    <div class="form-group">
+      <label for="email">Email de usuario</label>
+      <input
+        type="email"
+        class="form-control"
+        name="email"
+        id="email"
+        [(ngModel)]="LoginModel.email"
+        placeholder="Introduce tu email"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="LoginModel.password"
+        class="form-control"
+        id="password"
+        placeholder="Contraseña"
+        required
+      />
+    </div>
+    <div *ngIf="this.invalidCredentials" class="error-message">
+      Las credenciales no se corresponden a ningún usuario
+    </div>
+    <div class="text-end">
+      <app-button
+        (onClick)="login(loginForm)"
+        [disabled]="!loginForm.form.valid"
+        classes="btn btn-primary mt-3 me-3"
+      >
+        Iniciar Sesión
+      </app-button>
+    </div>
+  </form>
+</app-card>

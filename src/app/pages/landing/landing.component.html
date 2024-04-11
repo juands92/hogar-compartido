@@ -1,0 +1,40 @@
+<div class="px-4 py-5 my-5 text-center">
+  <h4 class="display-5 fw-bold">Bienvenido a</h4>
+  <img
+    class="d-block mx-auto mb-4"
+    src="../../../assets/logo.jpg"
+    alt=""
+    width="400"
+    height="400"
+  />
+  <h2 class="display-1 mb-4 fw-bold">Hogar Compartido</h2>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">
+      Una aplicación web innovadora diseñada para transformar la experiencia de
+      compartir vivienda, facilitando la gestión y mejorando la convivencia
+      entre inquilinos. Con una interfaz amigable y fácil de usar, esta
+      aplicación se convierte en el centro de comando para todo lo relacionado
+      con la vida compartida, desde la administración de gastos hasta la
+      organización de tareas comunes.
+    </p>
+    <p class="lead mb-4 fw-bold">Comienza a gestionar tu casa</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <!-- Verifica si isAuthenticated$ -->
+      <button
+        *ngIf="isAuthenticated$ | async; else createAccount"
+        type="button"
+        class="btn btn-primary btn-lg px-4 gap-3"
+        routerLink="/overview"
+      >
+        Ir a mi panel de resumen
+      </button>
+
+      <!-- Si no muestra el link de login -->
+      <ng-template #createAccount>
+        <button type="button" class="btn btn-primary btn-lg px-4 gap-3">
+          Crear cuenta
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</div>

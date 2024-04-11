@@ -1,0 +1,22 @@
+.active {
+  color: #fff;
+}
+
+hr {
+  margin: 0.3rem 0 !important;
+}
+
+.bell-icon-style {
+  display: inline-block;
+  padding: 15px;
+  font-size: 1rem;
+  color: white;
+}
+
+.icon-style {
+  display: "inline-block";
+  padding: 5px;
+  padding-right: 10px;
+  font-size: 1rem;
+  color: white;
+}
