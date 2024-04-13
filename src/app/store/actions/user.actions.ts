@@ -7,5 +7,5 @@ export const fetchUserDetails = createAction(
 
 export const updateUserProfile = createAction(
     '[User] Update User Profile',
-    props<{ user: User }>()
+    props<{ userProfile: User }>()
 );

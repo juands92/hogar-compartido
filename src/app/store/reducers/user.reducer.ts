@@ -12,8 +12,8 @@ export const userReducer = createReducer(
         ...state,
         userDetails: null
     })),
-    on(UserActions.updateUserProfile, (state, { user }) => ({
+    on(UserActions.updateUserProfile, (state, { userProfile }) => ({
         ...state,
-        userDetails: user
+        userDetails: userProfile
     }))
 );
