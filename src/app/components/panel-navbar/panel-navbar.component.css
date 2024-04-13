@@ -8,9 +8,12 @@ hr {
 
 .bell-icon-style {
   display: inline-block;
-  padding: 15px;
   font-size: 1rem;
   color: white;
+}
+
+.bell-icon {
+  margin: 15px;
 }
 
 .icon-style {

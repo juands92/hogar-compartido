@@ -11,7 +11,13 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="/landing">HogarCompartido</a>
-    <fa-icon [icon]="faBell" size="lg" class="bell-icon-style"></fa-icon>
+    <div class="position-relative bell-icon">
+      <fa-icon [icon]="faBell" size="lg" class="bell-icon-style"></fa-icon>
+      <span
+        class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger p-2"
+        ><span class="visually-hidden">unread messages</span></span
+      >
+    </div>
     <div
       class="offcanvas offcanvas-start text-bg-dark d-flex flex-column"
       tabindex="-1"
