@@ -9,10 +9,12 @@ import {
 import { environment } from '../../environments/environment';
 import moment from 'moment';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
+
   constructor(private _http: HttpClient) {}
 
   public login(body: AuthBody): Observable<AuthenticationResponse> {
@@ -33,4 +35,5 @@ export class AuthenticationService {
 
     return this._http.post<AuthenticationResponse>(url, formattedBody);
   }
+
 }

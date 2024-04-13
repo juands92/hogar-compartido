@@ -1,4 +1,3 @@
-// auth.selectors.ts
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../state/auth.state';
 
