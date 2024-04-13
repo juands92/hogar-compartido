@@ -9,10 +9,12 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class UserProfileService {
-  private url = `${environment.BASE_URL}/users`;
+  private baseUrl = `${environment.BASE_URL}/users`;
 
   constructor(private http: HttpClient) { }
 
-  
+  getUserProfile(): Observable<User> {
+    const url = `${this.baseUrl}/${localStorage.getItem('userId')}`;
+  }
 
 }
