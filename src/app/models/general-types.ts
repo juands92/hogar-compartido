@@ -3,16 +3,19 @@ export interface AuthBody {
   password: string;
 }
 
-export interface RegisterBody {
-  name: string;
-  lastName: string;
-  email: string;
+export interface RegisterBody extends UserBody {
   password: string;
-  dateOfBirth: string;
   termsAccepted: boolean;
 }
 
-export interface AuthenticationResponse {
+export interface UserBody {
+  name: string;
+  lastName: string;
+  email: string;
+  dateOfBirth: string;
+}
+
+export interface Response {
   token: string;
   username: string;
   name: string;
