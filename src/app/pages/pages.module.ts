@@ -8,6 +8,7 @@ import { HomeModule } from './home/home.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { TasksModule } from './tasks/tasks.module';
 import { RegisterModule } from './register/register.module';
+import { ProfileModule } from './profile/profile.module';
 
 @NgModule({
   declarations: [],
@@ -15,6 +16,7 @@ import { RegisterModule } from './register/register.module';
     LoginModule,
     RegisterModule,
     LandingModule,
+    ProfileModule,
     OverviewModule,
     CalendarModule,
     ExpensesModule,
@@ -26,6 +28,7 @@ import { RegisterModule } from './register/register.module';
     LoginModule,
     RegisterModule,
     LandingModule,
+    ProfileModule,
     OverviewModule,
     CalendarModule,
     ExpensesModule,

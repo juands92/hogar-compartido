@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {
-  AuthBody,
-  AuthenticationResponse,
-  RegisterBody,
-} from '../models/general-types';
+import { AuthBody, Response, RegisterBody } from '../models/general-types';
 import { environment } from '../../environments/environment';
 import moment from 'moment';
 
@@ -15,13 +11,13 @@ import moment from 'moment';
 export class AuthenticationService {
   constructor(private _http: HttpClient) {}
 
-  public login(body: AuthBody): Observable<AuthenticationResponse> {
+  public login(body: AuthBody): Observable<Response> {
     let url = `${environment.BASE_URL}/auth/login`;
 
-    return this._http.post<AuthenticationResponse>(url, body);
+    return this._http.post<Response>(url, body);
   }
 
-  public register(body: RegisterBody): Observable<AuthenticationResponse> {
+  public register(body: RegisterBody): Observable<Response> {
     let url = `${environment.BASE_URL}/auth/register`;
 
     const { dateOfBirth } = body;
@@ -31,6 +27,6 @@ export class AuthenticationService {
       dateOfBirth: moment(dateOfBirth).format('DD/MM/YYYY'),
     };
 
-    return this._http.post<AuthenticationResponse>(url, formattedBody);
+    return this._http.post<Response>(url, formattedBody);
   }
 }

@@ -1,3 +1,105 @@
-<div class="px-4 py-5 my-5 text-center">
-  <h4 class="display-5 fw-bold">Perfil</h4>
+<div class="px-4 py-5 my-5">
+  <div class="col-md-10 my-3 mx-auto">
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="px-2 py-2 my-5">
+            <div class="mx-auto">
+              <div class="row">
+                <!-- Profile Section -->
+                <div class="col-12 col-md-4 text-center mb-4">
+                  <div class="mb-3">
+                    <img
+                      src="https://github.com/mdo.png"
+                      width="200"
+                      height="200"
+                      class="rounded-circle"
+                      alt="User Profile"
+                    />
+                    <h3 class="mt-2">Pedro</h3>
+                    <button
+                      class="btn btn-outline-dark btn-sm"
+                      (click)="toggleEdit()"
+                    >
+                      Editar perfil
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Form Section -->
+                <div class="col-12 col-md-8">
+                  <form #userForm="ngForm">
+                    <div class="form-group mb-2">
+                      <label for="firstNameInput" class="form-label"
+                        >Nombre</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        id="name"
+                        [(ngModel)]="UserModel.name"
+                        [readonly]="!isEditable"
+                        required
+                      />
+                    </div>
+                    <div class="form-group mb-2">
+                      <label for="lastNameInput" class="form-label"
+                        >Apellidos</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="lastName"
+                        id="lastName"
+                        [(ngModel)]="UserModel.lastName"
+                        [readonly]="!isEditable"
+                        required
+                      />
+                    </div>
+                    <div class="form-group mb-2">
+                      <label for="emailInput" class="form-label">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        name="email"
+                        id="email"
+                        [(ngModel)]="UserModel.email"
+                        required
+                        [readonly]="!isEditable"
+                      />
+                    </div>
+                    <div class="form-group mb-2">
+                      <label for="birthdayInput" class="form-label"
+                        >Fecha de nacimiento</label
+                      >
+                      <input
+                        type="date"
+                        class="form-control"
+                        name="dateOfBirth"
+                        id="dateOfBirth"
+                        [(ngModel)]="UserModel.dateOfBirth"
+                        [value]="03 / 10 / 1992"
+                        required
+                        [readonly]="!isEditable"
+                      />
+                    </div>
+                    <div class="text-end">
+                      <app-button
+                        (onClick)="updateUser(userForm)"
+                        [disabled]="!userForm.form.valid"
+                        classes="btn btn-light mt-3 me-3"
+                      >
+                        Guardar
+                      </app-button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
