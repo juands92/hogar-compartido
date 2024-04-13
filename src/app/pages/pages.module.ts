@@ -7,11 +7,13 @@ import { ExpensesModule } from './expenses/expenses.module';
 import { HomeModule } from './home/home.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { TasksModule } from './tasks/tasks.module';
+import { RegisterModule } from './register/register.module';
 
 @NgModule({
   declarations: [],
   imports: [
     LoginModule,
+    RegisterModule,
     LandingModule,
     OverviewModule,
     CalendarModule,
@@ -22,6 +24,7 @@ import { TasksModule } from './tasks/tasks.module';
   ],
   exports: [
     LoginModule,
+    RegisterModule,
     LandingModule,
     OverviewModule,
     CalendarModule,

@@ -4,21 +4,23 @@ import { NgForm } from '@angular/forms';
 import { HttpStatusCode } from '@angular/common/http';
 import * as AuthActions from '../../store/actions/auth.actions';
 import { Store } from '@ngrx/store';
-import { LoginForm } from '../../models/Forms';
+import { RegisterForm } from '../../models/Forms';
 import { AuthenticationService } from '../../services/authentication.service';
-import { AuthBody, AuthenticationResponse } from '../../models/general-types';
+import {
+  AuthenticationResponse,
+  RegisterBody,
+} from '../../models/general-types';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
   providers: [],
 })
-export class LoginComponent {
+export class RegisterComponent {
   public invalidCredentials: boolean;
 
-  // Modelo de registro utilizado para la vinculación, two-way binding, con el formulario
-  LoginModel = new LoginForm();
+  RegisterModel = new RegisterForm();
 
   constructor(
     private store: Store,
@@ -28,9 +30,8 @@ export class LoginComponent {
     this.invalidCredentials = false;
   }
 
-  // Al intentar iniciar sesión, se muestra una alerta indicando que el usuario debe registrarse primero.
-  login(f: NgForm): void {
-    this._authService.login(f.form.value as AuthBody).subscribe({
+  register(f: NgForm): void {
+    this._authService.register(f.form.value as RegisterBody).subscribe({
       next: (response: AuthenticationResponse) => {
         sessionStorage.setItem('token', response.token);
         this.store.dispatch(AuthActions.login({ isAuthenticated: true }));

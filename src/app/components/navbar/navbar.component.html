@@ -10,8 +10,22 @@
           ></app-dropdown>
           <!-- Si no muestra el link de login -->
           <ng-template #loginLink>
-            <a class="nav-link" href="/login">Iniciar Sesión</a>
+            <button
+              type="button"
+              class="btn btn-light btn-sm px-3 gap-3 me-3"
+              routerLink="/login"
+            >
+              Iniciar sesión
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm px-3 gap-3"
+              routerLink="/register"
+            >
+              Crear cuenta
+            </button>
           </ng-template>
+          >
         </li>
       </ul>
     </div>

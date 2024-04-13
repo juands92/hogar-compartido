@@ -10,6 +10,7 @@ import { CalendarComponent } from './pages/calendar/calendar.component';
 import { ExpensesComponent } from './pages/expenses/expenses.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'overview',

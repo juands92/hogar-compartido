@@ -9,14 +9,20 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent {
   title = 'hogar-compartido';
   showPanelNavbar = true;
+  allowedRoutes = [
+    '/overview',
+    '/profile',
+    '/home',
+    '/calendar',
+    '/expenses',
+    '/tasks',
+    '/inventory',
+  ];
 
   constructor(private router: Router) {
-    // Escucha los eventos del router
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Establece showComponent a true si la ruta actual no es '/landing'
-        this.showPanelNavbar =
-          event.url !== '/landing' && event.url !== '/login';
+        this.showPanelNavbar = this.allowedRoutes.includes(event.url);
       }
     });
   }
