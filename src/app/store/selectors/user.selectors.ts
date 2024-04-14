@@ -7,3 +7,8 @@ export const selectUserDetails = createSelector(
   selectUserState,
   state => state.userDetails
 );
+
+export const selectUserId = createSelector(
+  selectUserState,
+  state => state.userDetails?.id
+);
