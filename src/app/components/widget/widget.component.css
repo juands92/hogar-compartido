@@ -1,0 +1,11 @@
+.icon-style {
+  display: "inline-block";
+  padding-right: 5px;
+  padding-right: 10px;
+  font-size: 1rem;
+}
+
+.card {
+  max-height: 30rem;
+  overflow: auto;
+}

@@ -3,11 +3,14 @@ export class LoginForm {
   public password?: string;
 }
 
-export class RegisterForm {
+export class UserForm {
   public name?: string;
   public lastName?: string;
   public email?: string;
-  public password?: string;
   public dateOfBirth?: string;
+}
+
+export class RegisterForm extends UserForm {
+  public password?: string;
   public termsAccepted?: boolean;
 }

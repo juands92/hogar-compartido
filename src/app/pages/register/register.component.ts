@@ -6,10 +6,7 @@ import * as AuthActions from '../../store/actions/auth.actions';
 import { Store } from '@ngrx/store';
 import { RegisterForm } from '../../models/Forms';
 import { AuthenticationService } from '../../services/authentication.service';
-import {
-  AuthenticationResponse,
-  RegisterBody,
-} from '../../models/general-types';
+import { Response, RegisterBody } from '../../models/general-types';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +29,7 @@ export class RegisterComponent {
 
   register(f: NgForm): void {
     this._authService.register(f.form.value as RegisterBody).subscribe({
-      next: (response: AuthenticationResponse) => {
+      next: (response: Response) => {
         sessionStorage.setItem('token', response.token);
         this.store.dispatch(AuthActions.login({ isAuthenticated: true }));
         this.router.navigate(['/overview']);
