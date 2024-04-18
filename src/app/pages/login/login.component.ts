@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { HttpStatusCode } from '@angular/common/http';
 import * as AuthActions from '../../store/actions/auth.actions';
+import * as UserActions from '../../store/actions/user.actions';
 import { Store } from '@ngrx/store';
 import { LoginForm } from '../../models/Forms';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -32,8 +33,19 @@ export class LoginComponent {
   login(f: NgForm): void {
     this._authService.login(f.form.value as AuthBody).subscribe({
       next: (response: Response) => {
+        console.log('response:', response);
         sessionStorage.setItem('token', response.token);
         this.store.dispatch(AuthActions.login({ isAuthenticated: true }));
+        this.store.dispatch(
+          UserActions.update({
+            name: response.name,
+            lastName: response.lastName,
+            email: response.email,
+            dateOfBirth: response.dateOfBirth,
+            id: response.id,
+            profileImage: response.profileImage,
+          })
+        );
         this.router.navigate(['/overview']);
       },
       error: (error) => {

@@ -3,20 +3,44 @@
     <div class="col">
       <div class="card shadow-sm">
         <div class="card-body">
+          <div
+            *ngIf="successMessageVisible"
+            style="z-index: 1000000"
+            class="alert alert-success position-fixed bottom-0 end-0 p-3"
+            role="alert"
+          >
+            ¡Tus cambios han sido guardados exitosamente!
+          </div>
           <div class="px-2 py-2 my-5">
             <div class="mx-auto">
               <div class="row">
                 <!-- Profile Section -->
                 <div class="col-12 col-md-4 text-center mb-4">
                   <div class="mb-3">
-                    <img
-                      src="https://github.com/mdo.png"
-                      width="200"
-                      height="200"
-                      class="rounded-circle"
-                      alt="User Profile"
-                    />
-                    <h3 class="mt-2">Pedro</h3>
+                    <div class="image-container position-relative">
+                      <img
+                        [src]="imageSrc"
+                        width="200"
+                        height="200"
+                        class="rounded-circle"
+                        alt="User Profile"
+                      />
+                      <fa-icon
+                        *ngIf="isEditable"
+                        [icon]="faUpload"
+                        size="lg"
+                        class="icon-style"
+                        (click)="fileInput.click()"
+                      >
+                      </fa-icon>
+                      <input
+                        type="file"
+                        (change)="onFileChange($event)"
+                        hidden
+                        #fileInput
+                      />
+                    </div>
+                    <h3 class="mt-2">{{ userName }}</h3>
                     <button
                       class="btn btn-outline-dark btn-sm"
                       (click)="toggleEdit()"
@@ -25,7 +49,6 @@
                     </button>
                   </div>
                 </div>
-
                 <!-- Form Section -->
                 <div class="col-12 col-md-8">
                   <form #userForm="ngForm">
@@ -40,6 +63,7 @@
                         id="name"
                         [(ngModel)]="UserModel.name"
                         [readonly]="!isEditable"
+                        [disabled]="!isEditable"
                         required
                       />
                     </div>
@@ -54,6 +78,7 @@
                         id="lastName"
                         [(ngModel)]="UserModel.lastName"
                         [readonly]="!isEditable"
+                        [disabled]="!isEditable"
                         required
                       />
                     </div>
@@ -67,6 +92,7 @@
                         [(ngModel)]="UserModel.email"
                         required
                         [readonly]="!isEditable"
+                        [disabled]="!isEditable"
                       />
                     </div>
                     <div class="form-group mb-2">
@@ -79,16 +105,16 @@
                         name="dateOfBirth"
                         id="dateOfBirth"
                         [(ngModel)]="UserModel.dateOfBirth"
-                        [value]="03 / 10 / 1992"
                         required
+                        [disabled]="!isEditable"
                         [readonly]="!isEditable"
                       />
                     </div>
                     <div class="text-end">
                       <app-button
-                        (onClick)="updateUser(userForm)"
-                        [disabled]="!userForm.form.valid"
-                        classes="btn btn-light mt-3 me-3"
+                        (onClick)="updateUser(userForm, fileInput)"
+                        [disabled]="!isEditable"
+                        classes="btn btn-secondary mt-3 me-3"
                       >
                         Guardar
                       </app-button>

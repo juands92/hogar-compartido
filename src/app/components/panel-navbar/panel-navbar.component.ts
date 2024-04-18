@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as AuthSelectors from '../../store/selectors/auth.selectors';
+
 import {
   faBell,
   faCalendar,
@@ -13,7 +14,7 @@ import {
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { AppState } from '../../store/state/auth.state';
+import { AppState } from '../../store/state/state';
 import * as AuthActions from '../../store/actions/auth.actions';
 
 @Component({

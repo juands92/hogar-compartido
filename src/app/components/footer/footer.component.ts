@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as AuthSelectors from '../../store/selectors/auth.selectors';
 import { Router } from '@angular/router';
-import { AppState } from '../../store/state/auth.state';
+import { AppState } from '../../store/state/state';
 import {
   faFacebookF,
   faInstagram,
