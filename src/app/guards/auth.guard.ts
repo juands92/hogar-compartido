@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { AppState } from '../store/state/auth.state';
+import { AppState } from '../store/state/state';
 
 @Injectable({
   providedIn: 'root',

@@ -11,8 +11,8 @@ import moment from 'moment';
 export class UserService {
   constructor(private _http: HttpClient) {}
 
-  public updateUser(body: UserBody): Observable<Response> {
-    let url = `${environment.BASE_URL}/users/752`;
+  public updateUser(id: string, body: UserBody): Observable<Response> {
+    let url = `${environment.BASE_URL}/users/${id}`;
 
     const token = sessionStorage.getItem('token');
 
@@ -29,5 +29,22 @@ export class UserService {
     });
 
     return this._http.put<Response>(url, formattedBody, { headers });
+  }
+
+  public updateUserImage(id: string, imageFile: File): Observable<Response> {
+    let url = `${environment.BASE_URL}/users/${id}/image`;
+
+    const token = sessionStorage.getItem('token');
+
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this._http.put<Response>(url, formData, {
+      headers,
+    });
   }
 }

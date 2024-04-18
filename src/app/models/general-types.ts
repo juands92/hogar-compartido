@@ -17,9 +17,10 @@ export interface UserBody {
 
 export interface Response {
   token: string;
-  username: string;
+  email: string;
   name: string;
   lastName: string;
   dateOfBirth: string;
   id: string;
+  profileImage?: string;
 }

@@ -1,6 +1,6 @@
 // auth.selectors.ts
 import { createSelector } from '@ngrx/store';
-import { AppState } from '../state/auth.state';
+import { AppState } from '../state/state';
 
 export const selectAuthState = (state: AppState) => state.auth;
 

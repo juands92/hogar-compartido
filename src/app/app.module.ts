@@ -11,6 +11,8 @@ import { authReducer } from './store/reducers/auth.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { userReducer } from './store/reducers/user.reducer';
+import { metaReducers } from './store/reducers/local-storage.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +22,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     PagesModule,
     ComponentsModule,
     HttpClientModule,
-    StoreModule.forRoot({ auth: authReducer }),
+    StoreModule.forRoot(
+      {
+        auth: authReducer,
+        user: userReducer,
+      },
+      { metaReducers }
+    ),
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
