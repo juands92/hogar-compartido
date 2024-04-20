@@ -13,45 +13,45 @@
           </div>
           <div class="px-2 py-2 my-5">
             <div class="mx-auto">
-              <div class="row">
+              <form #userForm="ngForm">
                 <!-- Profile Section -->
-                <div class="col-12 col-md-4 text-center mb-4">
-                  <div class="mb-3">
-                    <div class="image-container position-relative">
-                      <img
-                        [src]="imageSrc"
-                        width="200"
-                        height="200"
-                        class="rounded-circle"
-                        alt="User Profile"
-                      />
-                      <fa-icon
-                        *ngIf="isEditable"
-                        [icon]="faUpload"
-                        size="lg"
-                        class="icon-style"
-                        (click)="fileInput.click()"
+                <div class="row">
+                  <div class="col-12 col-md-4 text-center mb-4">
+                    <div class="mb-3">
+                      <div class="image-container position-relative">
+                        <img
+                          [src]="imageSrc"
+                          width="200"
+                          height="200"
+                          class="rounded-circle"
+                          alt="User Profile"
+                        />
+                        <fa-icon
+                          *ngIf="isEditable"
+                          [icon]="faUpload"
+                          size="lg"
+                          class="icon-style"
+                          (click)="fileInput.click()"
+                        >
+                        </fa-icon>
+                        <input
+                          type="file"
+                          (change)="onFileChange($event)"
+                          hidden
+                          #fileInput
+                        />
+                      </div>
+                      <h3 class="mt-2">{{ userName }}</h3>
+                      <button
+                        class="btn btn-outline-dark btn-sm"
+                        (click)="toggleEdit()"
                       >
-                      </fa-icon>
-                      <input
-                        type="file"
-                        (change)="onFileChange($event)"
-                        hidden
-                        #fileInput
-                      />
+                        Editar perfil
+                      </button>
                     </div>
-                    <h3 class="mt-2">{{ userName }}</h3>
-                    <button
-                      class="btn btn-outline-dark btn-sm"
-                      (click)="toggleEdit()"
-                    >
-                      Editar perfil
-                    </button>
                   </div>
-                </div>
-                <!-- Form Section -->
-                <div class="col-12 col-md-8">
-                  <form #userForm="ngForm">
+                  <!-- Form Section -->
+                  <div class="col-12 col-md-8">
                     <div class="form-group mb-2">
                       <label for="firstNameInput" class="form-label"
                         >Nombre</label
@@ -110,18 +110,49 @@
                         [readonly]="!isEditable"
                       />
                     </div>
-                    <div class="text-end">
-                      <app-button
-                        (onClick)="updateUser(userForm, fileInput)"
-                        [disabled]="!isEditable"
-                        classes="btn btn-secondary mt-3 me-3"
+                    <div class="row align-items-end">
+                      <div
+                        *ngIf="UserModel.homeName; else createHome"
+                        class="col-md-9"
                       >
-                        Guardar
-                      </app-button>
+                        <div class="form-group">
+                          <label for="homeNameInput" class="form-label"
+                            >Tu casa</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="homeName"
+                            id="homeName"
+                            [(ngModel)]="UserModel.homeName"
+                            disabled
+                            readonly
+                          />
+                        </div>
+                      </div>
+                      <ng-template #createHome>
+                        <div class="col-md-9">
+                          <div class="form-group">
+                            <span>Aún no tienes una casa asignada, </span
+                            ><a routerLink="/home" class="fw-bold"
+                              >Crea una nueva</a
+                            >
+                          </div>
+                        </div>
+                      </ng-template>
+                      <div class="col-md-3 text-md-end">
+                        <app-button
+                          (onClick)="updateUser(userForm, fileInput)"
+                          [disabled]="!isEditable"
+                          classes="btn btn-secondary"
+                        >
+                          Guardar
+                        </app-button>
+                      </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>

@@ -4,4 +4,7 @@ import { AppState } from '../state/state';
 
 export const selectUserState = (state: AppState) => state.user;
 
-export const selectUser = createSelector(selectUserState, (state) => state);
+export const selectUserId = createSelector(
+  selectUserState,
+  (state) => state.id
+);

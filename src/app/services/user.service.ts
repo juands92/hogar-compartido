@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Response, UserBody } from '../models/general-types';
+import { ProfileResponse, UserBody } from '../models/general-types';
 import { environment } from '../../environments/environment';
 import moment from 'moment';
 
@@ -11,7 +11,19 @@ import moment from 'moment';
 export class UserService {
   constructor(private _http: HttpClient) {}
 
-  public updateUser(id: string, body: UserBody): Observable<Response> {
+  public getUser(id: string): Observable<ProfileResponse> {
+    let url = `${environment.BASE_URL}/users/${id}`;
+
+    const token = sessionStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this._http.get<ProfileResponse>(url, { headers });
+  }
+
+  public updateUser(id: string, body: UserBody): Observable<ProfileResponse> {
     let url = `${environment.BASE_URL}/users/${id}`;
 
     const token = sessionStorage.getItem('token');
@@ -28,10 +40,13 @@ export class UserService {
       Authorization: `Bearer ${token}`,
     });
 
-    return this._http.put<Response>(url, formattedBody, { headers });
+    return this._http.put<ProfileResponse>(url, formattedBody, { headers });
   }
 
-  public updateUserImage(id: string, imageFile: File): Observable<Response> {
+  public updateUserImage(
+    id: string,
+    imageFile: File
+  ): Observable<ProfileResponse> {
     let url = `${environment.BASE_URL}/users/${id}/image`;
 
     const token = sessionStorage.getItem('token');
@@ -43,7 +58,7 @@ export class UserService {
       Authorization: `Bearer ${token}`,
     });
 
-    return this._http.put<Response>(url, formData, {
+    return this._http.put<ProfileResponse>(url, formData, {
       headers,
     });
   }
