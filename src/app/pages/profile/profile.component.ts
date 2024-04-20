@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { UserForm } from '../../models/Forms';
 import { UserService } from '../../services/user.service';
 import { NgForm } from '@angular/forms';
-import { Response, UserBody } from '../../models/general-types';
+import { ProfileResponse, UserBody } from '../../models/general-types';
 import { HttpStatusCode } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { AppState, UserState } from '../../store/state/state';
+import { AppState, ProfileState } from '../../store/state/state';
+import * as ProfileSelectors from '../../store/selectors/profile.selectors';
 import * as UserSelectors from '../../store/selectors/user.selectors';
-import moment from 'moment';
-import * as UserActions from '../../store/actions/user.actions';
+
+import * as ProfileActions from '../../store/actions/profile.actions';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { format, parse } from 'date-fns';
 
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
   imageSrc: string | ArrayBuffer | null = '';
   userId: string = '';
   userName: string = '';
+
   isEditable = false;
 
   constructor(
@@ -38,22 +40,29 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(UserSelectors.selectUser).subscribe((user: UserState) => {
-      this.UserModel = {
-        name: user.name,
-        lastName: user.lastName,
-        email: user.email,
-        dateOfBirth: format(
-          parse(user.dateOfBirth, 'dd/MM/yyyy', new Date()),
-          'yyyy-MM-dd'
-        ),
-      };
-      this.userId = user.id;
-      this.userName = user.name;
-      user.profileImage
-        ? (this.imageSrc = 'data:image/jpeg;base64,' + user.profileImage)
-        : (this.imageSrc =
-            'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1114445501.jpg');
+    this.store
+      .select(ProfileSelectors.selectProfile)
+      .subscribe((profile: ProfileState) => {
+        this.UserModel = {
+          name: profile.name,
+          lastName: profile.lastName,
+          email: profile.email,
+          dateOfBirth: format(
+            parse(profile.dateOfBirth, 'dd/MM/yyyy', new Date()),
+            'yyyy-MM-dd'
+          ),
+          homeName: profile.home?.name,
+        };
+
+        this.userName = profile.name;
+        profile.profileImage
+          ? (this.imageSrc = 'data:image/jpeg;base64,' + profile.profileImage)
+          : (this.imageSrc =
+              'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1114445501.jpg');
+      });
+
+    this.store.select(UserSelectors.selectUserId).subscribe((id) => {
+      this.userId = id;
     });
   }
 
@@ -76,7 +85,7 @@ export class ProfileComponent implements OnInit {
     this._userService
       .updateUser(this.userId, f.form.value as UserBody)
       .subscribe({
-        next: (response: Response) => {
+        next: (response: ProfileResponse) => {
           this.handleSuccess(response);
           const file = fileInput.files?.item(0) || null;
           if (file) this.updateUserImage(file);
@@ -92,18 +101,19 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private handleSuccess(response: Response) {
+  private handleSuccess(response: ProfileResponse) {
     this.store.dispatch(
-      UserActions.update({
-        name: response.name,
+      ProfileActions.update({
+        /*name: response.name,
         lastName: response.lastName,
         email: response.email,
         dateOfBirth: response.dateOfBirth,
-        id: response.id,
-        profileImage: response.profileImage,
+        profileImage: response.profileImage,*/
+        ...response,
       })
     );
     this.successMessageVisible = true;
+    this.isEditable = false;
     setTimeout(() => {
       this.successMessageVisible = false;
     }, 4000);

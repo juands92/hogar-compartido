@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { userReducer } from './store/reducers/user.reducer';
 import { metaReducers } from './store/reducers/local-storage.reducer';
+import { profileReducer } from './store/reducers/profile.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +27,7 @@ import { metaReducers } from './store/reducers/local-storage.reducer';
       {
         auth: authReducer,
         user: userReducer,
+        profile: profileReducer,
       },
       { metaReducers }
     ),

@@ -13,14 +13,28 @@ export interface UserBody {
   lastName: string;
   email: string;
   dateOfBirth: string;
+  profileImage: string;
 }
 
-export interface Response {
+export interface AuthResponse {
+  id: string;
   token: string;
+}
+
+export interface ProfileResponse {
   email: string;
   name: string;
   lastName: string;
   dateOfBirth: string;
-  id: string;
   profileImage?: string;
+  home?: HomeResponse;
+}
+
+export interface HomeResponse {
+  id: string;
+  name: string;
+  address: string;
+  users: string[];
+  expenses: string[];
+  events: string[];
 }

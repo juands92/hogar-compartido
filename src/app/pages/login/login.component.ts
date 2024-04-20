@@ -7,7 +7,7 @@ import * as UserActions from '../../store/actions/user.actions';
 import { Store } from '@ngrx/store';
 import { LoginForm } from '../../models/Forms';
 import { AuthenticationService } from '../../services/authentication.service';
-import { AuthBody, Response } from '../../models/general-types';
+import { AuthBody, AuthResponse } from '../../models/general-types';
 
 @Component({
   selector: 'app-login',
@@ -32,18 +32,12 @@ export class LoginComponent {
   // Al intentar iniciar sesión, se muestra una alerta indicando que el usuario debe registrarse primero.
   login(f: NgForm): void {
     this._authService.login(f.form.value as AuthBody).subscribe({
-      next: (response: Response) => {
-        console.log('response:', response);
+      next: (response: AuthResponse) => {
         sessionStorage.setItem('token', response.token);
         this.store.dispatch(AuthActions.login({ isAuthenticated: true }));
         this.store.dispatch(
           UserActions.update({
-            name: response.name,
-            lastName: response.lastName,
-            email: response.email,
-            dateOfBirth: response.dateOfBirth,
             id: response.id,
-            profileImage: response.profileImage,
           })
         );
         this.router.navigate(['/overview']);

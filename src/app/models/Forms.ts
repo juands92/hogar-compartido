@@ -8,6 +8,8 @@ export class UserForm {
   public lastName?: string;
   public email?: string;
   public dateOfBirth?: string;
+  public homeName?: string;
+  public profileImage?: string;
 }
 
 export class RegisterForm extends UserForm {
