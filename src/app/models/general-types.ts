@@ -16,6 +16,11 @@ export interface UserBody {
   profileImage: string;
 }
 
+export interface HomeBody {
+  name: string;
+  address: string;
+}
+
 export interface AuthResponse {
   id: string;
   token: string;

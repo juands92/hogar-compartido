@@ -5,4 +5,4 @@ export const login = createAction(
   props<{ isAuthenticated: boolean }>()
 );
 
-export const logut = createAction('[Auth] Logout');
+export const logout = createAction('[Auth] Logout');
