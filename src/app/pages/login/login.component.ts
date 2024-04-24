@@ -17,8 +17,8 @@ import { AuthBody, AuthResponse } from '../../models/general-types';
 })
 export class LoginComponent {
   public invalidCredentials: boolean;
+  public errorMessage: string = '';
 
-  // Modelo de registro utilizado para la vinculación, two-way binding, con el formulario
   LoginModel = new LoginForm();
 
   constructor(
@@ -29,7 +29,6 @@ export class LoginComponent {
     this.invalidCredentials = false;
   }
 
-  // Al intentar iniciar sesión, se muestra una alerta indicando que el usuario debe registrarse primero.
   login(f: NgForm): void {
     this._authService.login(f.form.value as AuthBody).subscribe({
       next: (response: AuthResponse) => {
@@ -42,12 +41,18 @@ export class LoginComponent {
         );
         this.router.navigate(['/overview']);
       },
-      error: (error) => {
-        console.log('Error ' + JSON.stringify(error));
-        if (error.status === HttpStatusCode.Unauthorized) {
-          this.invalidCredentials = true;
-        }
-      },
+      error: this.handleError.bind(this),
     });
+  }
+
+  private handleError(error: { status: HttpStatusCode; error: string }) {
+    if (error.status === HttpStatusCode.Unauthorized) {
+      this.invalidCredentials = true;
+    }
+
+    this.errorMessage = '!Algo ha salido mal!';
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 4000);
   }
 }
