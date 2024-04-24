@@ -16,3 +16,8 @@ export class RegisterForm extends UserForm {
   public password?: string;
   public termsAccepted?: boolean;
 }
+
+export class HomeForm {
+  public name?: string;
+  public address?: string;
+}

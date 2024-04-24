@@ -104,11 +104,6 @@ export class ProfileComponent implements OnInit {
   private handleSuccess(response: ProfileResponse) {
     this.store.dispatch(
       ProfileActions.update({
-        /*name: response.name,
-        lastName: response.lastName,
-        email: response.email,
-        dateOfBirth: response.dateOfBirth,
-        profileImage: response.profileImage,*/
         ...response,
       })
     );

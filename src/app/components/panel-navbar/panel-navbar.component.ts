@@ -43,7 +43,7 @@ export class PanelNavbarComponent implements OnInit {
 
   logout(): void {
     sessionStorage.removeItem('token');
-    this.store.dispatch(AuthActions.logut());
+    this.store.dispatch(AuthActions.logout());
     this.router.navigate(['/landing']);
   }
 }

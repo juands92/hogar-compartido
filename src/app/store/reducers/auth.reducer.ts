@@ -7,7 +7,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  isAuthenticated: sessionStorage.getItem('token') !== null,
+  isAuthenticated: false,
 };
 
 export const authReducer = createReducer(
@@ -16,8 +16,5 @@ export const authReducer = createReducer(
     ...state,
     isAuthenticated,
   })),
-  on(AuthActions.logut, (state) => ({
-    ...state,
-    isAuthenticated: false,
-  }))
+  on(AuthActions.logout, () => initialState)
 );

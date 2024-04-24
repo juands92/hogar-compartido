@@ -1,3 +1,76 @@
-<div class="px-4 py-5 my-5 text-center">
-  <h4 class="display-5 fw-bold">Casa</h4>
+<div class="px-4 py-5 my-5">
+  <div class="text-center">
+    <h4 class="display-5 fw-bold">Casa</h4>
+  </div>
+  <div class="col-md-10 my-3 mx-auto">
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div
+            *ngIf="successMessageVisible"
+            class="alert alert-success position-fixed bottom-0 end-0 p-3"
+            role="alert"
+            style="z-index: 1000000"
+          >
+            ¡Tus cambios han sido guardados exitosamente!
+          </div>
+          <div class="px-2 py-2 my-5">
+            <div class="mx-auto">
+              <form #homeForm="ngForm">
+                <!-- Form Section -->
+                <div class="col-md-8 mx-auto">
+                  <div class="form-group mb-2">
+                    <label for="NameInput" class="form-label">Nombre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      [(ngModel)]="HomeModel.name"
+                      [readonly]="!isEditable"
+                      [disabled]="!isEditable"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mb-2">
+                    <label for="addressInput" class="form-label"
+                      >Dirección</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      name="address"
+                      [(ngModel)]="HomeModel.address"
+                      [readonly]="!isEditable"
+                      [disabled]="!isEditable"
+                      required
+                    />
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12 d-flex justify-content-end">
+                      <button
+                        class="btn btn-outline-dark me-2"
+                        (click)="toggleEdit()"
+                        *ngIf="homeId"
+                      >
+                        Editar casa
+                      </button>
+                      <app-button
+                        (onClick)="saveHome(homeForm)"
+                        [disabled]="!isEditable"
+                        classes="btn btn-secondary"
+                      >
+                        Guardar
+                      </app-button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

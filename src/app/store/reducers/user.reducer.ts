@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as UserActions from '../actions/user.actions';
+import * as AuthActions from '../actions/auth.actions';
 
 export interface State {
   id: string;
@@ -14,5 +15,6 @@ export const userReducer = createReducer(
   on(UserActions.update, (state, { id }) => ({
     ...state,
     id,
-  }))
+  })),
+  on(AuthActions.logout, () => initialState)
 );

@@ -12,3 +12,10 @@ export const update = createAction(
     home?: HomeResponse;
   }>()
 );
+
+export const updateHome = createAction(
+  '[Profile] Update Home',
+  props<{
+    home?: HomeResponse;
+  }>()
+);

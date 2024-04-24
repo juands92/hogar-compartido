@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as ProfileActions from '../actions/profile.actions';
 import { HomeResponse } from '../../models/general-types';
+import * as AuthActions from '../actions/auth.actions';
 
 export interface State {
   name: string;
@@ -31,5 +32,10 @@ export const profileReducer = createReducer(
       ...(profileImage && { profileImage }),
       ...(home && { home }),
     })
-  )
+  ),
+  on(ProfileActions.updateHome, (state, { home }) => ({
+    ...state,
+    ...(home && { home }),
+  })),
+  on(AuthActions.logout, () => initialState)
 );
