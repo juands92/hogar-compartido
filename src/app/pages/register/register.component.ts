@@ -17,6 +17,7 @@ import { RegisterBody, AuthResponse } from '../../models/general-types';
 })
 export class RegisterComponent {
   public invalidCredentials: boolean;
+  public errorMessage: string = '';
 
   RegisterModel = new RegisterForm();
 
@@ -40,12 +41,18 @@ export class RegisterComponent {
         );
         this.router.navigate(['/overview']);
       },
-      error: (error) => {
-        console.log('Error ' + JSON.stringify(error));
-        if (error.status === HttpStatusCode.Unauthorized) {
-          this.invalidCredentials = true;
-        }
-      },
+      error: this.handleError.bind(this),
     });
+  }
+
+  private handleError(error: { status: HttpStatusCode; error: string }) {
+    if (error.status === HttpStatusCode.Unauthorized) {
+      this.invalidCredentials = true;
+    }
+
+    this.errorMessage = error.error;
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 4000);
   }
 }

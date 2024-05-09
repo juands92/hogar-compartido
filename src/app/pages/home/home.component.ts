@@ -20,6 +20,7 @@ import { UserService } from '../../services/user.service';
 export class HomeComponent implements OnInit {
   public invalidCredentials: boolean;
   public successMessageVisible: boolean = false;
+  public errorMessage: string = '';
   isEditable: boolean = false;
   homeId?: string = '';
   userId: string = '';
@@ -89,11 +90,14 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private handleError(error: { status: HttpStatusCode }) {
-    console.log('Error ' + JSON.stringify(error));
-    this.successMessageVisible = false;
+  private handleError(error: { status: HttpStatusCode; error: string }) {
     if (error.status === HttpStatusCode.Unauthorized) {
       this.invalidCredentials = true;
     }
+
+    this.errorMessage = '!Algo ha salido mal!';
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 4000);
   }
 }

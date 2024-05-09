@@ -1,4 +1,12 @@
 <app-card [headerTitle]="'Iniciar Sesión'">
+  <div
+    *ngIf="errorMessage"
+    style="z-index: 1000000"
+    class="alert alert-danger position-fixed bottom-0 end-0 p-3"
+    role="alert"
+  >
+    {{ errorMessage }}
+  </div>
   <form #loginForm="ngForm">
     <div class="form-group mb-2">
       <label for="email">Email de usuario</label>
