@@ -1,5 +1,43 @@
 @media (max-width: 1600px) {
   .zoom-out {
-    zoom: 70%;
+    z-index: 2;
+    zoom: 65%;
+    margin-top: 10%;
   }
 }
+
+.main-container {
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.app-logo {
+  height: 400px;
+  width: 400px;
+  margin-bottom: 0 !important;
+}
+
+.text-container {
+  z-index: 2;
+  background-color: #FFFFFF40;
+  border-radius: 20px;
+}
+
+.button-pretext {
+  text-decoration: underline;
+  margin-bottom: 0px !important;
+}
+
+.welcome {
+  font-size: 40px;
+  margin-top: 1% !important;
+}
+
+h2 {
+  font-size: 56px;
+  margin-bottom: 10px !important;
+}
+
+

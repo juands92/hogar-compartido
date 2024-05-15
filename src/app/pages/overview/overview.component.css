@@ -1,3 +1,20 @@
+.row {
+  flex-direction: row;
+}
+
+app-widget .col {
+  min-height: 500px;
+}
+
+.card {
+  min-height: 500px !important;
+  max-height: 500px !important;
+}
+
+.inner-card {
+  min-height: 230px !important;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }

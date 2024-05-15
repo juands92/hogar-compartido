@@ -1,96 +1,98 @@
-<app-card [headerTitle]="'Crear nueva cuenta'">
-  <div
-    *ngIf="errorMessage"
-    style="z-index: 1000000"
-    class="alert alert-danger position-fixed bottom-0 end-0 p-3"
-    role="alert"
-  >
-    {{ errorMessage }}
-  </div>
-  <form #registerForm="ngForm">
-    <div class="form-group mb-3">
-      <label for="name">Nombre</label>
-      <input
-        type="text"
-        class="form-control"
-        name="name"
-        id="name"
-        [(ngModel)]="RegisterModel.name"
-        placeholder="Introduce tu nombre"
-        required
-      />
+<div class="main-container d-flex justify-content-center align-items-center">
+  <app-card class="register-card" [headerTitle]="'Crear nueva cuenta'">
+    <div
+      *ngIf="errorMessage"
+      style="z-index: 1000000"
+      class="alert alert-danger position-fixed bottom-0 end-0 p-3"
+      role="alert"
+    >
+      {{ errorMessage }}
     </div>
-    <div class="form-group mb-3">
-      <label for="lastName">Apellido</label>
-      <input
-        type="text"
-        class="form-control"
-        name="lastName"
-        id="lastName"
-        [(ngModel)]="RegisterModel.lastName"
-        placeholder="Introduce tus apellidos"
-        required
-      />
-    </div>
-    <div class="form-group mb-3">
-      <label for="dateOfBirth">Fecha de nacimiento</label>
-      <input
-        type="date"
-        class="form-control"
-        name="dateOfBirth"
-        id="dateOfBirth"
-        [(ngModel)]="RegisterModel.dateOfBirth"
-        placeholder="Fecha de nacimiento"
-        required
-      />
-    </div>
-    <div class="form-group mb-3">
-      <label for="email">Email de usuario</label>
-      <input
-        type="email"
-        class="form-control"
-        name="email"
-        id="email"
-        [(ngModel)]="RegisterModel.email"
-        placeholder="Introduce tu email"
-        required
-      />
-    </div>
-    <div class="form-group mb-3">
-      <label for="password">Contraseña</label>
-      <input
-        type="password"
-        name="password"
-        [(ngModel)]="RegisterModel.password"
-        class="form-control"
-        id="password"
-        placeholder="Contraseña"
-        required
-      />
-    </div>
-    <div class="form-group mb-3">
-      <div class="form-check">
+    <form #registerForm="ngForm">
+      <div class="form-group mb-3">
+        <label for="name">Nombre</label>
         <input
-          type="checkbox"
-          class="form-check-input"
-          id="termsAccepted"
-          name="termsAccepted"
-          [(ngModel)]="RegisterModel.termsAccepted"
+          type="text"
+          class="form-control"
+          name="name"
+          id="name"
+          [(ngModel)]="RegisterModel.name"
+          placeholder="Introduce tu nombre"
           required
         />
-        <label class="form-check-label" for="termsAccepted"
-          >Acepto los términos y condiciones</label
-        >
       </div>
-    </div>
-    <div class="text-end">
-      <app-button
-        (onClick)="register(registerForm)"
-        [disabled]="!registerForm.form.valid"
-        classes="btn btn-primary mt-3 me-3"
-      >
-        Crear
-      </app-button>
-    </div>
-  </form>
-</app-card>
+      <div class="form-group mb-3">
+        <label for="lastName">Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          name="lastName"
+          id="lastName"
+          [(ngModel)]="RegisterModel.lastName"
+          placeholder="Introduce tus apellidos"
+          required
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="dateOfBirth">Fecha de nacimiento</label>
+        <input
+          type="date"
+          class="form-control"
+          name="dateOfBirth"
+          id="dateOfBirth"
+          [(ngModel)]="RegisterModel.dateOfBirth"
+          placeholder="Fecha de nacimiento"
+          required
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="email">Email de usuario</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          id="email"
+          [(ngModel)]="RegisterModel.email"
+          placeholder="Introduce tu email"
+          required
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="RegisterModel.password"
+          class="form-control"
+          id="password"
+          placeholder="Contraseña"
+          required
+        />
+      </div>
+      <div class="form-group mb-3">
+        <div class="form-check">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="termsAccepted"
+            name="termsAccepted"
+            [(ngModel)]="RegisterModel.termsAccepted"
+            required
+          />
+          <label class="form-check-label" for="termsAccepted"
+            >Acepto los términos y condiciones</label
+          >
+        </div>
+      </div>
+      <div class="text-end">
+        <app-button
+          (onClick)="register(registerForm)"
+          [disabled]="!registerForm.form.valid"
+          classes="btn btn-primary mt-3 me-3"
+        >
+          Crear
+        </app-button>
+      </div>
+    </form>
+  </app-card>
+</div>

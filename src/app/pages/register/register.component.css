@@ -1,3 +1,7 @@
+.register-card {
+  width: 100%;
+}
+
 .error-message {
   color: red;
 }

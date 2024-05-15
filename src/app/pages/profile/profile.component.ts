@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
   imageSrc: string | ArrayBuffer | null = '';
   userId: string = '';
   userName: string = '';
+  homeName: string | null = '';
 
   isEditable = false;
 

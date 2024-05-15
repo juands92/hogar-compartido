@@ -16,6 +16,7 @@ import * as ProfileActions from '../../store/actions/profile.actions';
 export class OverviewComponent implements OnInit {
   user$?: Observable<UserBody>;
   userId: string = '';
+  userName: string = '';
 
   constructor(
     private _userService: UserService,

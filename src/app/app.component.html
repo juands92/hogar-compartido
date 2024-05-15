@@ -1,6 +1,7 @@
 <app-navbar *ngIf="!showPanelNavbar"></app-navbar>
 <app-panel-navbar *ngIf="showPanelNavbar"></app-panel-navbar>
-<div class="container content my-5">
-  <router-outlet></router-outlet>
+<div class="container main-container content">
+  <router-outlet class="router-outlet"></router-outlet>
+  <!-- <div class="background-logo-container"></div> -->
 </div>
 <app-footer></app-footer>

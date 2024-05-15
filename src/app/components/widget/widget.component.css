@@ -6,6 +6,6 @@
 }
 
 .card {
-  max-height: 30rem;
-  overflow: auto;
+  min-height: 100%;
+  min-width: 100%;
 }

@@ -1,6 +1,7 @@
 <div class="px-4 py-5 my-5">
   <div class="text-center">
-    <h4 class="display-5 fw-bold">Casa</h4>
+    <h4 class="display-5 fw-bold">{{userName}}</h4>
+    <h5 *ngIf="homeName" class="fw-bold">Miembro de {{homeName}}</h5>
   </div>
   <div class="col-md-10 my-3 mx-auto">
     <div class="col">
@@ -54,7 +55,8 @@
                       </div>
                       <h3 class="mt-2">{{ userName }}</h3>
                       <button
-                        class="btn btn-outline-dark btn-sm"
+                        class="btn btn-primary btn-sm"
+                        [disabled]="isEditable"
                         (click)="toggleEdit()"
                       >
                         Editar perfil
@@ -145,7 +147,7 @@
                         <div class="col-md-9">
                           <div class="form-group">
                             <span>Aún no tienes una casa asignada, </span
-                            ><a routerLink="/home" class="fw-bold"
+                            ><a routerLink="/home" class="text-link fw-bold"
                               >Crea una nueva</a
                             >
                           </div>
@@ -155,7 +157,7 @@
                         <app-button
                           (onClick)="updateUser(userForm, fileInput)"
                           [disabled]="!isEditable"
-                          classes="btn btn-secondary"
+                          classes="btn btn-primary"
                         >
                           Guardar
                         </app-button>

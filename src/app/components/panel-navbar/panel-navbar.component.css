@@ -2,6 +2,12 @@
   color: #fff;
 }
 
+.navbar-brand {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  text-shadow: 1px 1px 2px #5c661e;
+}
+
 hr {
   margin: 0.3rem 0 !important;
 }
@@ -19,7 +25,19 @@ hr {
 .icon-style {
   display: "inline-block";
   padding: 5px;
-  padding-right: 10px;
   font-size: 1rem;
   color: white;
+}
+
+.nav-link img {
+  width: 40px !important;
+}
+.nav-link span {
+  margin-left: 10px !important;
+}
+
+.text-bg-dark {
+  background-color: #5c661e !important;
+  border-right: none;
+  box-shadow: #5c661e 5px 0px 10px 5px;
 }
