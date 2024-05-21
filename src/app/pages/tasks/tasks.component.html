@@ -24,7 +24,7 @@
           </div>
           <div class="px-2 py-2 my-5">
             <div class="mx-auto">
-              <form #taskForm="ngForm">
+              <form #taskForm="ngForm" (ngSubmit)="saveTasks(taskForm)">
                 <div class="col-md-12 mx-auto">
                   <div class="table-responsive">
                     <table class="table table-bordered">
@@ -39,8 +39,8 @@
                             <fa-icon
                               [icon]="
                                 sortCreationDateAsc
-                                  ? 'sort-amount-down'
-                                  : 'sort-amount-up'
+                                  ? faChevronDown
+                                  : faChevronUp
                               "
                             ></fa-icon>
                           </th>
@@ -48,9 +48,7 @@
                             Estado
                             <fa-icon
                               [icon]="
-                                sortStatusAsc
-                                  ? 'sort-amount-down'
-                                  : 'sort-amount-up'
+                                sortStatusAsc ? faChevronDown : faChevronUp
                               "
                             ></fa-icon>
                           </th>
@@ -58,13 +56,14 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let task of tasks">
+                        <tr *ngFor="let task of tasks; let i = index">
                           <td>
                             <input
                               type="text"
                               class="form-control"
                               [(ngModel)]="task.description"
-                              name="description-{{ task.id }}"
+                              (ngModelChange)="markAsEdited(task)"
+                              name="description-{{ i }}"
                               required
                             />
                           </td>
@@ -72,8 +71,9 @@
                             <input
                               type="date"
                               class="form-control"
-                              [(ngModel)]="task.creationDate"
-                              name="creationDate-{{ task.id }}"
+                              [(ngModel)]="task.dateCreated"
+                              (ngModelChange)="markAsEdited(task)"
+                              name="dateCreated-{{ i }}"
                               required
                             />
                           </td>
@@ -82,7 +82,8 @@
                               <select
                                 class="form-control me-2"
                                 [(ngModel)]="task.status"
-                                name="status-{{ task.id }}"
+                                (ngModelChange)="markAsEdited(task)"
+                                name="status-{{ i }}"
                               >
                                 <option [ngValue]="0">Por hacer</option>
                                 <option [ngValue]="1">Hecho</option>
@@ -111,7 +112,6 @@
                               <fa-icon
                                 [icon]="faTrash"
                                 size="lg"
-                                (click)="deleteTask(task.id)"
                                 style="color: red"
                               ></fa-icon>
                             </button>
@@ -129,12 +129,9 @@
                       >
                         Crear nueva tarea
                       </button>
-                      <app-button
-                        (onClick)="saveTasks(taskForm)"
-                        classes="btn btn-secondary"
-                      >
+                      <button type="submit" class="btn btn-secondary">
                         Guardar
-                      </app-button>
+                      </button>
                     </div>
                   </div>
                 </div>

@@ -21,6 +21,13 @@ export interface HomeBody {
   address: string;
 }
 
+export interface TaskBody {
+  description: string;
+  dateCreated: string;
+  status: number;
+  user: { id: string };
+}
+
 export interface AuthResponse {
   id: string;
   token: string;
@@ -33,6 +40,7 @@ export interface ProfileResponse {
   dateOfBirth: string;
   profileImage?: string;
   home?: HomeResponse;
+  tasks?: TasksResponse;
 }
 
 export interface HomeResponse {
@@ -42,4 +50,12 @@ export interface HomeResponse {
   users: string[];
   expenses: string[];
   events: string[];
+}
+
+export interface TasksResponse {
+  id: number;
+  dateCreated: string;
+  description: string;
+  status: number;
+  user: { id: string };
 }

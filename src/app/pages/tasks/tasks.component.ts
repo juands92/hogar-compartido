@@ -1,6 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { faCircleCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Task } from '../../models/Forms';
+import {
+  faCircleCheck,
+  faTrash,
+  faChevronUp,
+  faChevronDown,
+} from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
+import { AppState, ProfileState } from '../../store/state/state';
+import * as ProfileSelectors from '../../store/selectors/profile.selectors';
+import * as UserSelectors from '../../store/selectors/user.selectors';
+import {
+  ProfileResponse,
+  TaskBody,
+  TasksResponse,
+} from '../../models/general-types';
+import { format, parse } from 'date-fns';
+import { NgForm } from '@angular/forms';
+import { TasksService } from '../../services/tasks.service';
+import { HttpStatusCode } from '@angular/common/http';
+import { UserService } from '../../services/user.service';
+import * as ProfileActions from '../../store/actions/profile.actions';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
@@ -11,110 +31,135 @@ import { Task } from '../../models/Forms';
 export class TasksComponent implements OnInit {
   faCircleCheck = faCircleCheck;
   faTrash = faTrash;
-  tasks: Task[] = [];
+  faChevronUp = faChevronUp;
+  faChevronDown = faChevronDown;
+  tasks: (TasksResponse & { isNew?: boolean; isEdited?: boolean })[] = [];
+
   successMessageVisible = false;
   errorMessage = '';
   sortCreationDateAsc = true;
   sortStatusAsc = true;
+  userId: string = '';
+
+  constructor(
+    private store: Store<AppState>,
+    private _tasksService: TasksService,
+    private _userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.loadInitialTasks();
+    this.store.select(UserSelectors.selectUserId).subscribe((id) => {
+      this.userId = id;
+    });
   }
 
   loadInitialTasks() {
-    this.tasks = [
-      {
-        id: 1,
-        description: 'Limpiar la cocina',
-        creationDate: '2023-01-01',
-        status: 0,
-      },
-      {
-        id: 2,
-        description: 'Aspirar la sala',
-        creationDate: '2023-01-05',
-        status: 1,
-      },
-      {
-        id: 3,
-        description: 'Lavar los platos',
-        creationDate: '2023-02-10',
-        status: 0,
-      },
-      {
-        id: 4,
-        description: 'Hacer la cama',
-        creationDate: '2023-03-15',
-        status: 1,
-      },
-      {
-        id: 5,
-        description: 'Lavar la ropa',
-        creationDate: '2023-04-20',
-        status: 0,
-      },
-      {
-        id: 6,
-        description: 'Planchar la ropa',
-        creationDate: '2023-05-25',
-        status: 0,
-      },
-      {
-        id: 7,
-        description: 'Regar las plantas',
-        creationDate: '2023-06-30',
-        status: 1,
-      },
-      {
-        id: 8,
-        description: 'Sacar la basura',
-        creationDate: '2023-07-04',
-        status: 0,
-      },
-      {
-        id: 9,
-        description: 'Limpiar el baño',
-        creationDate: '2023-08-10',
-        status: 0,
-      },
-      {
-        id: 10,
-        description: 'Organizar el armario',
-        creationDate: '2023-09-15',
-        status: 1,
-      },
-    ];
+    this.tasks = [];
+    this.store
+      .select(ProfileSelectors.selectProfile)
+      .subscribe((profile: ProfileState) => {
+        if (profile && profile.tasks) {
+          profile.tasks.forEach((task) => {
+            let formattedTask = {
+              ...task,
+              dateCreated: format(
+                parse(task.dateCreated, 'dd/MM/yyyy', new Date()),
+                'yyyy-MM-dd'
+              ),
+            };
+            this.tasks.push(formattedTask);
+          });
+        }
+      });
   }
 
   addTask() {
-    const newTask: Task = {
+    const newTask: TasksResponse & { isNew: boolean } = {
       id: this.tasks.length + 1,
       description: '',
-      creationDate: new Date().toISOString().split('T')[0],
+      dateCreated: new Date().toISOString().split('T')[0],
       status: 0,
+      user: { id: this.userId },
+      isNew: true,
     };
     this.tasks.push(newTask);
   }
 
   deleteTask(id: number) {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+    this._tasksService.deleteTask(id).subscribe({
+      next: () => {
+        this.handleSuccess();
+      },
+      error: this.handleError.bind(this),
+    });
   }
 
-  saveTasks(form: any) {
-    if (form.valid) {
-      console.log('Tareas guardadas:', this.tasks);
-      this.successMessageVisible = true;
-      setTimeout(() => (this.successMessageVisible = false), 3000);
-    } else {
-      this.errorMessage = 'Por favor, complete todos los campos.';
-      setTimeout(() => (this.errorMessage = ''), 3000);
+  markAsEdited(task: TasksResponse & { isNew?: boolean; isEdited?: boolean }) {
+    if (!task.isNew) {
+      task.isEdited = true;
     }
+  }
+
+  async saveTasks(f: NgForm) {
+    if (!f.valid) return;
+
+    const newTasks = this.tasks.filter((task) => task.isNew);
+    const editedTasks = this.tasks.filter((task) => task.isEdited);
+
+    try {
+      const savePromises = newTasks.map((task) => {
+        const { isNew, ...taskToSave } = task;
+        return lastValueFrom(this._tasksService.saveTask(taskToSave));
+      });
+
+      const updatePromises = editedTasks.map((task) => {
+        const { isEdited, ...taskToUpdate } = task;
+        return lastValueFrom(
+          this._tasksService.updateTask(task.id, taskToUpdate)
+        );
+      });
+
+      await Promise.all([...savePromises, ...updatePromises]);
+      this.handleSuccess();
+    } catch (error) {
+      this.handleError();
+    }
+  }
+
+  private handleSuccess() {
+    this.successMessageVisible = true;
+    this.updateProfileState();
+    setTimeout(() => {
+      this.successMessageVisible = false;
+    }, 4000);
+  }
+
+  private updateProfileState() {
+    this._userService.getUser(this.userId).subscribe({
+      next: (response: ProfileResponse) => {
+        this.store.dispatch(
+          ProfileActions.updateTasks({
+            tasks: response.tasks,
+          })
+        );
+        this.loadInitialTasks();
+      },
+      error: this.handleError.bind(this),
+    });
+  }
+
+  private handleError() {
+    this.errorMessage = '!Algo ha salido mal!';
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 4000);
   }
 
   sortByCreationDate() {
     this.tasks.sort((a, b) => {
       const comparison =
-        new Date(a.creationDate).getTime() - new Date(b.creationDate).getTime();
+        new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime();
       return this.sortCreationDateAsc ? comparison : -comparison;
     });
     this.sortCreationDateAsc = !this.sortCreationDateAsc;
