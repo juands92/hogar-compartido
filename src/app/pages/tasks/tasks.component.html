@@ -1,3 +1,145 @@
-<div class="px-4 py-5 my-5 text-center">
-  <h4 class="display-5 fw-bold">Tareas</h4>
+<div class="px-4 py-5 my-5">
+  <div class="text-center">
+    <h4 class="display-5 fw-bold">Tareas</h4>
+  </div>
+  <div class="col-md-10 my-3 mx-auto">
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div
+            *ngIf="successMessageVisible"
+            class="alert alert-success position-fixed bottom-0 end-0 p-3"
+            role="alert"
+            style="z-index: 1000000"
+          >
+            ¡Tu tarea ha sido guardada exitosamente!
+          </div>
+          <div
+            *ngIf="errorMessage"
+            style="z-index: 1000000"
+            class="alert alert-danger position-fixed bottom-0 end-0 p-3"
+            role="alert"
+          >
+            {{ errorMessage }}
+          </div>
+          <div class="px-2 py-2 my-5">
+            <div class="mx-auto">
+              <form #taskForm="ngForm" (ngSubmit)="saveTasks(taskForm)">
+                <div class="col-md-12 mx-auto">
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Descripción</th>
+                          <th
+                            (click)="sortByCreationDate()"
+                            style="cursor: pointer"
+                          >
+                            Fecha de creación
+                            <fa-icon
+                              [icon]="
+                                sortCreationDateAsc
+                                  ? faChevronDown
+                                  : faChevronUp
+                              "
+                            ></fa-icon>
+                          </th>
+                          <th (click)="sortByStatus()" style="cursor: pointer">
+                            Estado
+                            <fa-icon
+                              [icon]="
+                                sortStatusAsc ? faChevronDown : faChevronUp
+                              "
+                            ></fa-icon>
+                          </th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let task of tasks; let i = index">
+                          <td>
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="task.description"
+                              (ngModelChange)="markAsEdited(task)"
+                              name="description-{{ i }}"
+                              required
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="date"
+                              class="form-control"
+                              [(ngModel)]="task.dateCreated"
+                              (ngModelChange)="markAsEdited(task)"
+                              name="dateCreated-{{ i }}"
+                              required
+                            />
+                          </td>
+                          <td>
+                            <div class="d-flex align-items-center">
+                              <select
+                                class="form-control me-2"
+                                [(ngModel)]="task.status"
+                                (ngModelChange)="markAsEdited(task)"
+                                name="status-{{ i }}"
+                              >
+                                <option [ngValue]="0">Por hacer</option>
+                                <option [ngValue]="1">Hecho</option>
+                              </select>
+                              <fa-icon
+                                *ngIf="task.status === 0"
+                                [icon]="faCircleCheck"
+                                size="lg"
+                                style="color: grey"
+                              ></fa-icon>
+                              <fa-icon
+                                *ngIf="task.status === 1"
+                                [icon]="faCircleCheck"
+                                size="lg"
+                                style="color: green"
+                              ></fa-icon>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            <button
+                              type="button"
+                              class="btn btn-sm"
+                              (click)="deleteTask(task.id)"
+                              style="padding: 7px"
+                            >
+                              <fa-icon
+                                [icon]="faTrash"
+                                size="lg"
+                                style="color: red"
+                              ></fa-icon>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12 d-flex justify-content-end">
+                      <button
+                        type="button"
+                        class="btn btn-outline-dark me-2"
+                        (click)="addTask()"
+                      >
+                        Crear nueva tarea
+                      </button>
+                      <button type="submit" class="btn btn-secondary">
+                        Guardar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
