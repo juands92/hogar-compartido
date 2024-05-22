@@ -5,7 +5,6 @@ import { OverviewModule } from './overview/overview.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { HomeModule } from './home/home.module';
-import { InventoryModule } from './inventory/inventory.module';
 import { TasksModule } from './tasks/tasks.module';
 import { RegisterModule } from './register/register.module';
 import { ProfileModule } from './profile/profile.module';
@@ -21,7 +20,6 @@ import { ProfileModule } from './profile/profile.module';
     CalendarModule,
     ExpensesModule,
     HomeModule,
-    InventoryModule,
     TasksModule,
   ],
   exports: [
@@ -33,7 +31,6 @@ import { ProfileModule } from './profile/profile.module';
     CalendarModule,
     ExpensesModule,
     HomeModule,
-    InventoryModule,
     TasksModule,
   ],
   providers: [],

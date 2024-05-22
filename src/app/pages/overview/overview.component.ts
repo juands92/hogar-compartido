@@ -39,6 +39,7 @@ export class OverviewComponent implements OnInit {
               profileImage: response.profileImage,
               home: response.home,
               tasks: response.tasks,
+              expenses: response.expenses,
             })
           );
         },

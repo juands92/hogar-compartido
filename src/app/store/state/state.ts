@@ -1,4 +1,4 @@
-import { HomeResponse, TasksResponse } from '../../models/general-types';
+import { HomeResponse } from '../../models/general-types';
 
 export interface AuthState {
   isAuthenticated: boolean;
@@ -12,7 +12,8 @@ export interface ProfileState {
   id: string;
   profileImage?: string;
   home?: HomeResponse;
-  tasks?: TasksResponse[];
+  tasks?: number[];
+  expenses?: number[];
 }
 
 export interface UserState {

@@ -2,23 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import moment from 'moment';
-import {
-  ProfileResponse,
-  TaskBody,
-  TasksResponse,
-} from '../models/general-types';
+import { ExpensesResponse, ExpenseBody } from '../models/general-types';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TasksService {
+export class ExpensesService {
   constructor(private _http: HttpClient) {}
 
-  public saveTask(task: TaskBody): Observable<TasksResponse> {
-    const { dateCreated } = task;
-    const formattedTask = {
-      ...task,
+  public saveExpense(expense: ExpenseBody): Observable<ExpensesResponse> {
+    const { dateCreated } = expense;
+    const formattedExpense = {
+      ...expense,
       dateCreated: moment(dateCreated).format('DD/MM/YYYY'),
     };
 
@@ -28,15 +24,20 @@ export class TasksService {
       Authorization: `Bearer ${token}`,
     });
 
-    const url = `${environment.BASE_URL}/tasks`;
+    const url = `${environment.BASE_URL}/expenses`;
 
-    return this._http.post<TasksResponse>(url, formattedTask, { headers });
+    return this._http.post<ExpensesResponse>(url, formattedExpense, {
+      headers,
+    });
   }
 
-  public updateTask(id: number, task: TaskBody): Observable<TasksResponse> {
-    const { dateCreated, user, home } = task;
-    const formattedTask = {
-      ...task,
+  public updateExpense(
+    id: number,
+    expense: ExpenseBody
+  ): Observable<ExpensesResponse> {
+    const { dateCreated, home, user } = expense;
+    const formattedExpense = {
+      ...expense,
       dateCreated: moment(dateCreated).format('DD/MM/YYYY'),
       home: typeof home === 'string' ? { id: home } : home,
       user: typeof user === 'string' ? { id: user } : user,
@@ -48,19 +49,19 @@ export class TasksService {
       Authorization: `Bearer ${token}`,
     });
 
-    const url = `${environment.BASE_URL}/tasks/${id}`;
+    const url = `${environment.BASE_URL}/expenses/${id}`;
 
-    return this._http.put<TasksResponse>(url, formattedTask, { headers });
+    return this._http.put<ExpensesResponse>(url, formattedExpense, { headers });
   }
 
-  public deleteTask(id: number): Observable<TasksResponse> {
+  public deleteExpense(id: number): Observable<ExpensesResponse> {
     const token = sessionStorage.getItem('token');
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     });
 
-    const url = `${environment.BASE_URL}/tasks/${id}`;
-    return this._http.delete<TasksResponse>(url, { headers });
+    const url = `${environment.BASE_URL}/expenses/${id}`;
+    return this._http.delete<ExpensesResponse>(url, { headers });
   }
 }

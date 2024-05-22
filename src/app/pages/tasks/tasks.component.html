@@ -56,14 +56,14 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let task of tasks; let i = index">
+                        <tr *ngFor="let task of tasks; trackBy: trackByFn">
                           <td>
                             <input
                               type="text"
                               class="form-control"
                               [(ngModel)]="task.description"
                               (ngModelChange)="markAsEdited(task)"
-                              name="description-{{ i }}"
+                              name="description-{{ task.id }}"
                               required
                             />
                           </td>
@@ -73,7 +73,7 @@
                               class="form-control"
                               [(ngModel)]="task.dateCreated"
                               (ngModelChange)="markAsEdited(task)"
-                              name="dateCreated-{{ i }}"
+                              name="dateCreated-{{ task.id }}"
                               required
                             />
                           </td>
@@ -83,7 +83,7 @@
                                 class="form-control me-2"
                                 [(ngModel)]="task.status"
                                 (ngModelChange)="markAsEdited(task)"
-                                name="status-{{ i }}"
+                                name="status-{{ task.id }}"
                               >
                                 <option [ngValue]="0">Por hacer</option>
                                 <option [ngValue]="1">Hecho</option>

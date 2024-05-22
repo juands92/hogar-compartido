@@ -1,5 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { HomeResponse, TasksResponse } from '../../models/general-types';
+import {
+  ExpensesResponse,
+  HomeResponse,
+  TasksResponse,
+} from '../../models/general-types';
 
 export const update = createAction(
   '[Profile] Update',
@@ -10,7 +14,8 @@ export const update = createAction(
     dateOfBirth?: string;
     profileImage?: string;
     home?: HomeResponse;
-    tasks?: TasksResponse;
+    tasks?: number[];
+    expenses?: number[];
   }>()
 );
 
@@ -24,6 +29,13 @@ export const updateHome = createAction(
 export const updateTasks = createAction(
   '[Profile] Update Tasks',
   props<{
-    tasks?: TasksResponse;
+    tasks?: number[];
+  }>()
+);
+
+export const updateExpenses = createAction(
+  '[Profile] Update Expenses',
+  props<{
+    expenses?: number[];
   }>()
 );
