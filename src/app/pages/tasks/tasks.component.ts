@@ -9,15 +9,10 @@ import { Store } from '@ngrx/store';
 import { AppState, ProfileState } from '../../store/state/state';
 import * as ProfileSelectors from '../../store/selectors/profile.selectors';
 import * as UserSelectors from '../../store/selectors/user.selectors';
-import {
-  ProfileResponse,
-  TaskBody,
-  TasksResponse,
-} from '../../models/general-types';
+import { ProfileResponse, TasksResponse } from '../../models/general-types';
 import { format, parse } from 'date-fns';
 import { NgForm } from '@angular/forms';
 import { TasksService } from '../../services/tasks.service';
-import { HttpStatusCode } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
 import * as ProfileActions from '../../store/actions/profile.actions';
 import { lastValueFrom } from 'rxjs';
@@ -40,6 +35,7 @@ export class TasksComponent implements OnInit {
   sortCreationDateAsc = true;
   sortStatusAsc = true;
   userId: string = '';
+  homeId?: string = '';
 
   constructor(
     private store: Store<AppState>,
@@ -49,6 +45,11 @@ export class TasksComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadInitialTasks();
+    this.store
+      .select(ProfileSelectors.selectProfile)
+      .subscribe((profile: ProfileState) => {
+        this.homeId = profile.home?.id;
+      });
     this.store.select(UserSelectors.selectUserId).subscribe((id) => {
       this.userId = id;
     });
@@ -59,16 +60,19 @@ export class TasksComponent implements OnInit {
     this.store
       .select(ProfileSelectors.selectProfile)
       .subscribe((profile: ProfileState) => {
-        if (profile && profile.tasks) {
-          profile.tasks.forEach((task) => {
-            let formattedTask = {
-              ...task,
-              dateCreated: format(
-                parse(task.dateCreated, 'dd/MM/yyyy', new Date()),
-                'yyyy-MM-dd'
-              ),
-            };
-            this.tasks.push(formattedTask);
+        if (profile && profile.home?.tasks && profile.tasks) {
+          const taskIds = new Set(profile.tasks);
+          profile.home.tasks.forEach((task) => {
+            if (taskIds.has(task.id)) {
+              let formattedTask = {
+                ...task,
+                dateCreated: format(
+                  parse(task.dateCreated, 'dd/MM/yyyy', new Date()),
+                  'yyyy-MM-dd'
+                ),
+              };
+              this.tasks.push(formattedTask);
+            }
           });
         }
       });
@@ -80,6 +84,7 @@ export class TasksComponent implements OnInit {
       description: '',
       dateCreated: new Date().toISOString().split('T')[0],
       status: 0,
+      home: { id: this.homeId! },
       user: { id: this.userId },
       isNew: true,
     };
@@ -139,6 +144,11 @@ export class TasksComponent implements OnInit {
     this._userService.getUser(this.userId).subscribe({
       next: (response: ProfileResponse) => {
         this.store.dispatch(
+          ProfileActions.updateHome({
+            home: response.home,
+          })
+        );
+        this.store.dispatch(
           ProfileActions.updateTasks({
             tasks: response.tasks,
           })
@@ -171,5 +181,9 @@ export class TasksComponent implements OnInit {
       return this.sortStatusAsc ? comparison : -comparison;
     });
     this.sortStatusAsc = !this.sortStatusAsc;
+  }
+
+  trackByFn(index: number, item: any): number {
+    return item.id;
   }
 }
