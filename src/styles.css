@@ -1,7 +1,152 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/*Definición de variables*/
+:root {
+  --primary-color: #679e59;
+  --secondary-color: #cbe440;
+  --alert-color: #e95858;
+  --background-color: #e6eec7;
+  --lightgrey-color: #f5f5f5;
+  --midgrey-color: #d9d9d9;
+  --darkgrey-color: #7d7d7d;
+
+  --light-weight: 300;
+  --regular-weight: 400;
+  --semibold-weight: 500;
+  --bold-weight: 600;
+}
+
+/* Estilos globales*/
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
-  background: #f7f7f7;
+  background: var(--background-color);
+  height: 100vh;
   height: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Estilos de fondos */
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color) !important;
+}
+
+.bg-alert {
+  background-color: var(--alert-color) !important;
+}
+
+.bg-lightgrey {
+  background-color: var(--lightgrey-color) !important;
+}
+
+.bg-midgrey {
+  background-color: var(--midgrey-color) !important;
+}
+
+.bg-darkgrey {
+  background-color: var(--darkgrey-color) !important;
+}
+
+/* Estilos de texto */
+.error-message {
+  color: var(--alert-color);
+}
+
+a {
+  color: var(--primary-color);
+}
+
+.page-title {
+  font-weight: var(--semibold-weight);
+}
+
+.table-head {
+  font-weight: var(--semibold-weight);
+}
+
+/* Estilos de barra de navegación */
+.navbar {
+  background-color: var(--primary-color);
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.navbar-collapse {
+  width: 50%;
   margin: 0;
-  padding: 0;
+}
+
+.collapse:not(.show) {
+  display: flex;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Estilos de menú lateral */
+.offcanvas {
+  background-color: var(--primary-color);
+}
+
+/* Estilos de tarjetas */
+.card {
+  height: 100%;
+  overflow: auto;
+  background-color: var(--lightgrey-color);
+  border-radius: 16px;
+}
+
+/* Estilos de tablas */
+.table {
+  border-radius: 16px !important;
+}
+
+/* Estilos de botones */
+.btn {
+  border: none;
+  border-radius: 16px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border: none !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color) !important;
+}
+
+/* Estilos de calendario */
+.fc .fc-button-primary {
+  background-color: var(--primary-color) !important;
+  border: var(--primary-color) !important;
+  color: var(--lightgrey-color) !important;
+}
+
+.fc-h-event {
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  display: block;
+}
+
+/* Media queries */
+@media (max-width: 1600px) {
+  .zoom-out {
+    zoom: 80%;
+  }
+}
+
+@media (max-width: 600px) {
+  html, body {
+    font-size: 1rem;
+  }
 }

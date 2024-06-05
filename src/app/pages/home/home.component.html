@@ -1,6 +1,6 @@
 <div class="px-4 py-5 my-5">
   <div class="text-center">
-    <h4 class="display-5 fw-bold">Casa</h4>
+    <h4 class="display-5 page-title">Casa</h4>
   </div>
   <div class="col-md-10 my-3 mx-auto">
     <div class="col">
@@ -58,7 +58,7 @@
                   <div class="row mt-3">
                     <div class="col-12 d-flex justify-content-end">
                       <button
-                        class="btn btn-outline-dark me-2"
+                        class="btn btn-secondary me-2"
                         (click)="toggleEdit()"
                         *ngIf="homeId"
                       >
@@ -67,7 +67,7 @@
                       <app-button
                         (onClick)="saveHome(homeForm)"
                         [disabled]="!isEditable"
-                        classes="btn btn-secondary"
+                        classes="btn btn-primary"
                       >
                         Guardar
                       </app-button>
