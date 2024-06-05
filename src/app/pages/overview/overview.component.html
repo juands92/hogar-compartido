@@ -1,15 +1,15 @@
 <div class="px-4 py-5 my-5 text-center">
-  <h3 class="mb-5">Bienvenido a casa, {{ (user$ | async)?.name }}</h3>
+  <h3 class="mb-5">Bienvenido a casa {{ (user$ | async)?.name }}</h3>
   <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
     <app-widget [headerTitle]="'El pisito'" [icon]="'faHome'">
       <div class="d-grid gap-1 mt-3">
-        <div class="fw-bold">Dirección</div>
+        <div class="fw-semibold">Dirección</div>
         <ul class="list-group">
           <li class="list-group-item">
             C. de Gaztambide, 65, Chamberí, 28015 Madrid
           </li>
         </ul>
-        <div class="fw-bold">Miembros</div>
+        <div class="fw-semibold">Miembros</div>
         <ul class="list-group">
           <li
             class="list-group-item list-group-item-action cursor-pointer"
@@ -91,41 +91,41 @@
       <div class="d-grid gap-3 mt-3">
         <ul class="list-group">
           <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-bold border-end border-2 pe-2">01/01/2024</span>
+            <span class="fw-semibold border-end border-2 pe-2">01/01/2024</span>
             <span class="ps-2">Evento 1</span>
           </li>
           <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-bold border-end border-2 pe-2">01/01/2024</span>
+            <span class="fw-semibold border-end border-2 pe-2">01/01/2024</span>
             <span class="ps-2">Evento 2</span>
           </li>
           <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-bold border-end border-2 pe-2">01/01/2024</span>
+            <span class="fw-semibold border-end border-2 pe-2">01/01/2024</span>
             <span class="ps-2">Evento 4</span>
           </li>
         </ul>
         <ul class="list-group">
           <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-bold border-end border-2 pe-2">02/01/2024</span>
+            <span class="fw-semibold border-end border-2 pe-2">02/01/2024</span>
             <span class="ps-2">Evento 4</span>
           </li>
         </ul>
         <ul class="list-group">
           <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-bold border-end border-2 pe-2">03/01/2024</span>
+            <span class="fw-semibold border-end border-2 pe-2">03/01/2024</span>
             <span class="ps-2">Evento 5</span>
           </li>
           <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-bold border-end border-2 pe-2">03/01/2024</span>
+            <span class="fw-semibold border-end border-2 pe-2">03/01/2024</span>
             <span class="ps-2">Evento 6</span>
           </li>
         </ul>
         <ul class="list-group">
           <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-bold border-end border-2 pe-2">04/01/2024</span>
+            <span class="fw-semibold border-end border-2 pe-2">04/01/2024</span>
             <span class="ps-2">Evento 7</span>
           </li>
           <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-bold border-end border-2 pe-2">05/01/2024</span>
+            <span class="fw-semibold border-end border-2 pe-2">05/01/2024</span>
             <span class="ps-2">Evento 8</span>
           </li>
         </ul>
@@ -170,7 +170,7 @@
               <h6 class="mb-1 w-20">Tú:</h6>
               <small class="text-center w-60">Pagar alquiler</small>
               <div class="w-20 text-end">
-                <span class="badge bg-success rounded-pill">&#10003;</span>
+                <span class="badge bg-primary rounded-pill">&#10003;</span>
               </div>
             </div>
           </div>
@@ -180,7 +180,7 @@
               <h6 class="mb-1 w-20">Rodrigo:</h6>
               <small class="text-center w-60">Limpiar salón</small>
               <div class="w-20 text-end">
-                <span class="badge bg-success rounded-pill">&#10003;</span>
+                <span class="badge bg-primary rounded-pill">&#10003;</span>
               </div>
             </div>
           </div>
@@ -189,7 +189,7 @@
               <h6 class="mb-1 w-20">Eugenio:</h6>
               <small class="text-center w-60">Hacer la compra</small>
               <div class="w-20 text-end">
-                <span class="badge bg-success rounded-pill">&#10003;</span>
+                <span class="badge bg-primary rounded-pill">&#10003;</span>
               </div>
             </div>
           </div>
