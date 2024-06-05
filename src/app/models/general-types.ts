@@ -21,6 +21,22 @@ export interface HomeBody {
   address: string;
 }
 
+export interface TaskBody {
+  description: string;
+  dateCreated: string;
+  status: number;
+  home: { id: string };
+  user: { id: string };
+}
+
+export interface ExpenseBody {
+  description: string;
+  dateCreated: string;
+  amount: number;
+  home: { id: string };
+  user: { id: string };
+}
+
 export interface AuthResponse {
   id: string;
   token: string;
@@ -33,6 +49,8 @@ export interface ProfileResponse {
   dateOfBirth: string;
   profileImage?: string;
   home?: HomeResponse;
+  tasks?: number[];
+  expenses?: number[];
 }
 
 export interface HomeResponse {
@@ -40,6 +58,25 @@ export interface HomeResponse {
   name: string;
   address: string;
   users: string[];
-  expenses: string[];
+  expenses: ExpensesResponse[];
   events: string[];
+  tasks: TasksResponse[];
+}
+
+export interface TasksResponse {
+  id: number;
+  dateCreated: string;
+  description: string;
+  status: number;
+  home: { id: string };
+  user: { id: string };
+}
+
+export interface ExpensesResponse {
+  id: number;
+  dateCreated: string;
+  description: string;
+  amount: number;
+  home: { id: string };
+  user: { id: string };
 }

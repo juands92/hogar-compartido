@@ -8,7 +8,6 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { ExpensesComponent } from './pages/expenses/expenses.component';
-import { InventoryComponent } from './pages/inventory/inventory.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { RegisterComponent } from './pages/register/register.component';
 
@@ -58,11 +57,6 @@ const routes: Routes = [
   {
     path: 'tasks',
     component: TasksComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'inventory',
-    component: InventoryComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: 'landing' },

@@ -12,6 +12,8 @@ export interface ProfileState {
   id: string;
   profileImage?: string;
   home?: HomeResponse;
+  tasks?: number[];
+  expenses?: number[];
 }
 
 export interface UserState {

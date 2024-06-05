@@ -21,3 +21,10 @@ export class HomeForm {
   public name?: string;
   public address?: string;
 }
+
+export interface Task {
+  id: number;
+  description: string;
+  creationDate: string;
+  status: number;
+}

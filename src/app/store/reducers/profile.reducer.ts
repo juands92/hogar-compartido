@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import * as ProfileActions from '../actions/profile.actions';
-import { HomeResponse } from '../../models/general-types';
+import {
+  ExpensesResponse,
+  HomeResponse,
+  TasksResponse,
+} from '../../models/general-types';
 import * as AuthActions from '../actions/auth.actions';
 
 export interface State {
@@ -10,6 +14,8 @@ export interface State {
   dateOfBirth: string;
   profileImage?: string;
   home?: HomeResponse;
+  tasks?: number[];
+  expenses?: number[];
 }
 
 export const initialState: State = {
@@ -23,7 +29,19 @@ export const profileReducer = createReducer(
   initialState,
   on(
     ProfileActions.update,
-    (state, { name, lastName, email, dateOfBirth, profileImage, home }) => ({
+    (
+      state,
+      {
+        name,
+        lastName,
+        email,
+        dateOfBirth,
+        profileImage,
+        home,
+        tasks,
+        expenses,
+      }
+    ) => ({
       ...state,
       ...(name && { name }),
       ...(lastName && { lastName }),
@@ -31,11 +49,21 @@ export const profileReducer = createReducer(
       ...(dateOfBirth && { dateOfBirth }),
       ...(profileImage && { profileImage }),
       ...(home && { home }),
+      ...(tasks && { tasks }),
+      ...(expenses && { expenses }),
     })
   ),
   on(ProfileActions.updateHome, (state, { home }) => ({
     ...state,
     ...(home && { home }),
+  })),
+  on(ProfileActions.updateTasks, (state, { tasks }) => ({
+    ...state,
+    ...(tasks && { tasks }),
+  })),
+  on(ProfileActions.updateExpenses, (state, { expenses }) => ({
+    ...state,
+    ...(expenses && { expenses }),
   })),
   on(AuthActions.logout, () => initialState)
 );

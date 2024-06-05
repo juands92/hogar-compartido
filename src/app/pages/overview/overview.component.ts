@@ -38,6 +38,8 @@ export class OverviewComponent implements OnInit {
               dateOfBirth: response.dateOfBirth,
               profileImage: response.profileImage,
               home: response.home,
+              tasks: response.tasks,
+              expenses: response.expenses,
             })
           );
         },

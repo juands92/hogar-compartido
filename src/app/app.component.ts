@@ -16,7 +16,6 @@ export class AppComponent {
     '/calendar',
     '/expenses',
     '/tasks',
-    '/inventory',
   ];
 
   constructor(private router: Router) {
