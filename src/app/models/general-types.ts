@@ -43,6 +43,7 @@ export interface AuthResponse {
 }
 
 export interface ProfileResponse {
+  id: string;
   email: string;
   name: string;
   lastName: string;
@@ -57,7 +58,7 @@ export interface HomeResponse {
   id: string;
   name: string;
   address: string;
-  users: string[];
+  users: string[] | ProfileResponse[];
   expenses: ExpensesResponse[];
   events: string[];
   tasks: TasksResponse[];
@@ -74,9 +75,18 @@ export interface TasksResponse {
 
 export interface ExpensesResponse {
   id: number;
-  dateCreated: string;
   description: string;
   amount: number;
-  home: { id: string };
+  dateCreated: string;
   user: { id: string };
+  home: { id: string };
+}
+
+export interface HomeUser {
+  id: string;
+  name: string;
+  lastName: string;
+  profileImage: string;
+  expenses?: ExpensesResponse[];
+  tasks?: TasksResponse[];
 }

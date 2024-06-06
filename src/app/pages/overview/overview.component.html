@@ -1,88 +1,32 @@
-<div class="px-4 py-5 my-5 text-center">
+<div class="px-4 py-5 my-5 text-center" *ngIf="home">
   <h3 class="mb-5">Bienvenido a casa, {{ (user$ | async)?.name }}</h3>
   <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
-    <app-widget [headerTitle]="'El pisito'" [icon]="'faHome'">
+    <app-widget
+      [headerTitle]="home?.name ?? 'Nombre no disponible'"
+      [icon]="'faHome'"
+    >
       <div class="d-grid gap-1 mt-3">
         <div class="fw-bold">Dirección</div>
         <ul class="list-group">
           <li class="list-group-item">
-            C. de Gaztambide, 65, Chamberí, 28015 Madrid
+            {{ home?.address ?? "Dirección no disponible" }}
           </li>
         </ul>
         <div class="fw-bold">Miembros</div>
         <ul class="list-group">
           <li
+            *ngFor="let user of homeUsers"
             class="list-group-item list-group-item-action cursor-pointer"
             routerLink="/profile"
           >
             <img
-              src="https://github.com/mdo.png"
-              alt=""
+              [src]="user.profileImage"
+              alt="User Profile"
               width="32"
               height="32"
               class="rounded-circle me-2"
             />
-            Javi Sánchez
-          </li>
-          <li
-            class="list-group-item list-group-item-action cursor-pointer"
-            routerLink="/profile"
-          >
-            <img
-              src="https://github.com/mdo.png"
-              alt=""
-              width="32"
-              height="32"
-              class="rounded-circle me-2"
-            />Eugenio Alberca
-          </li>
-          <li
-            class="list-group-item list-group-item-action cursor-pointer"
-            routerLink="/profile"
-          >
-            <img
-              src="https://github.com/mdo.png"
-              alt=""
-              width="32"
-              height="32"
-              class="rounded-circle me-2"
-            />Rodrigo Aragón
-          </li>
-          <li
-            class="list-group-item list-group-item-action cursor-pointer"
-            routerLink="/profile"
-          >
-            <img
-              src="https://github.com/mdo.png"
-              alt=""
-              width="32"
-              height="32"
-              class="rounded-circle me-2"
-            />Javi Jiménez
-          </li>
-          <li
-            class="list-group-item list-group-item-action cursor-pointer"
-            routerLink="/profile"
-          >
-            <img
-              src="https://github.com/mdo.png"
-              alt=""
-              width="32"
-              height="32"
-              class="rounded-circle me-2"
-            />Juan Domínguez
-          </li>
-          <li
-            class="list-group-item list-group-item-action cursor-pointer"
-            routerLink="/profile"
-          >
-            <img
-              src="https://github.com/mdo.png"
-              alt=""
-              width="32"
-              height="32"
-              class="rounded-circle me-2"
-            />Carlos Beiro
+            {{ user.name }} {{ user.lastName }}
           </li>
         </ul>
       </div>
@@ -138,58 +82,208 @@
             <h4 class="card-title">Balance de gastos</h4>
             <div class="row py-3">
               <div class="col-sm-6">
-                <h5 class="card-title border-bottom">Debes</h5>
-                <h1 class="card-text">100€</h1>
+                <h5 class="card-title border-bottom">Te deben</h5>
+                <h1 class="card-text">{{ totalMeDeben | currency : "EUR" }}</h1>
               </div>
               <div class="col-sm-6">
-                <h5 class="card-title border-bottom">Te deben</h5>
-                <h1 class="card-text">50€</h1>
+                <h5 class="card-title border-bottom">Debes</h5>
+                <h1 class="card-text">{{ totalDebo | currency : "EUR" }}</h1>
+              </div>
+            </div>
+            <div class="row py-3">
+              <div class="col-sm-6">
+                <h5 class="card-title border-bottom">Quién te debe</h5>
+                <ul class="list-group">
+                  <li
+                    *ngFor="let credit of credits"
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    {{ credit.user.name }} {{ credit.user.lastName }}
+                    <span class="badge bg-success rounded-pill">{{
+                      credit.amount | currency : "EUR"
+                    }}</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+                <h5 class="card-title border-bottom">A quién le debes</h5>
+                <ul class="list-group">
+                  <li
+                    *ngFor="let debt of debts"
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    {{ debt.user.name }} {{ debt.user.lastName }}
+                    <span class="badge bg-danger rounded-pill">{{
+                      debt.amount | currency : "EUR"
+                    }}</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
     </app-widget>
+    <!-- <app-widget [headerTitle]="'Tareas'" [icon]="'faListCheck'">
+      <div class="mt-3">
+        <div class="card bg-light">
+          <div class="card-body text-center">
+            <h4 class="card-title">Tareas</h4>
+            <div class="row py-3">
+              <div class="col-sm-6">
+                <h5 class="card-title border-bottom">Tú:</h5>
+                <ul class="list-group">
+                  <li
+                    *ngFor="let task of myTasks"
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <span class="task-description">{{ task.description }}</span>
+                    <span
+                      *ngIf="task.status !== 1"
+                      class="badge bg-secondary rounded-pill"
+                      >&#10003;</span
+                    >
+                    <span
+                      *ngIf="task.status === 1"
+                      class="badge bg-success rounded-pill"
+                      >&#10003;</span
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+                <h5 class="card-title border-bottom">Tareas de los demás:</h5>
+                <div class="accordion" id="accordionTasks">
+                  <div class="accordion-item" *ngFor="let other of otherTasks">
+                    <h2
+                      class="accordion-header"
+                      id="heading{{ other.user.id }}"
+                    >
+                      <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#collapse' + other.user.id"
+                        aria-expanded="false"
+                        [attr.aria-controls]="'collapse' + other.user.id"
+                      >
+                        {{ other.user.name }} {{ other.user.lastName }}
+                      </button>
+                    </h2>
+                    <div
+                      [id]="'collapse' + other.user.id"
+                      class="accordion-collapse collapse"
+                      [attr.aria-labelledby]="'heading' + other.user.id"
+                      data-bs-parent="#accordionTasks"
+                    >
+                      <div class="accordion-body">
+                        <ul class="list-group">
+                          <li
+                            *ngFor="let task of other.tasks"
+                            class="list-group-item d-flex justify-content-between align-items-center"
+                          >
+                            <span class="task-description">{{
+                              task.description
+                            }}</span>
+                            <span
+                              *ngIf="task.status === 1"
+                              class="badge bg-success rounded-pill"
+                              >&#10003;</span
+                            >
+                            <span
+                              *ngIf="task.status !== 1"
+                              class="badge bg-secondary rounded-pill"
+                              >&#10003;</span
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-widget> -->
     <app-widget [headerTitle]="'Tareas'" [icon]="'faListCheck'">
       <div class="mt-3">
-        <div class="list-group">
-          <div class="list-group-item">
-            <div class="d-flex justify-content-between mb-3">
-              <h6 class="mb-1 w-20">Tú:</h6>
-              <small class="text-center w-60">Limpiar baños</small>
-              <button class="btn btn-secondary btn-sm w-20">Hecho</button>
-            </div>
-            <div class="d-flex justify-content-between mb-3">
-              <h6 class="mb-1 w-20"></h6>
-              <small class="text-center w-60">Limpiar pasillo</small>
-              <button class="btn btn-secondary btn-sm w-20">Hecho</button>
-            </div>
-          </div>
-          <div class="list-group-item list-group-item-secondary">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 w-20">Tú:</h6>
-              <small class="text-center w-60">Pagar alquiler</small>
-              <div class="w-20 text-end">
-                <span class="badge bg-success rounded-pill">&#10003;</span>
+        <div class="card bg-light">
+          <div class="card-body text-center">
+            <h4 class="card-title">Tareas</h4>
+            <div class="row py-3">
+              <div class="col-sm-6">
+                <h5 class="card-title border-bottom">Tú:</h5>
+                <ul class="list-group">
+                  <li
+                    *ngFor="let task of myTasks"
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <span class="task-description">{{ task.description }}</span>
+                    <span
+                      *ngIf="task.status !== 1"
+                      class="badge bg-secondary rounded-pill"
+                      >&#10003;</span
+                    >
+                    <span
+                      *ngIf="task.status === 1"
+                      class="badge bg-success rounded-pill"
+                      >&#10003;</span
+                    >
+                  </li>
+                </ul>
               </div>
-            </div>
-          </div>
-
-          <div class="list-group-item list-group-item-secondary">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 w-20">Rodrigo:</h6>
-              <small class="text-center w-60">Limpiar salón</small>
-              <div class="w-20 text-end">
-                <span class="badge bg-success rounded-pill">&#10003;</span>
-              </div>
-            </div>
-          </div>
-          <div class="list-group-item list-group-item-secondary">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1 w-20">Eugenio:</h6>
-              <small class="text-center w-60">Hacer la compra</small>
-              <div class="w-20 text-end">
-                <span class="badge bg-success rounded-pill">&#10003;</span>
+              <div class="col-sm-6">
+                <h5 class="card-title border-bottom">Tareas de los demás:</h5>
+                <div class="accordion" id="accordionTasks">
+                  <div class="accordion-item" *ngFor="let other of otherTasks">
+                    <h2
+                      class="accordion-header"
+                      id="heading{{ other.user.id }}"
+                    >
+                      <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#collapse' + other.user.id"
+                        aria-expanded="false"
+                        [attr.aria-controls]="'collapse' + other.user.id"
+                      >
+                        {{ other.user.name }} {{ other.user.lastName }}
+                      </button>
+                    </h2>
+                    <div
+                      [id]="'collapse' + other.user.id"
+                      class="accordion-collapse collapse"
+                      [attr.aria-labelledby]="'heading' + other.user.id"
+                      data-bs-parent="#accordionTasks"
+                    >
+                      <div class="accordion-body">
+                        <ul class="list-group">
+                          <li
+                            *ngFor="let task of other.tasks"
+                            class="list-group-item d-flex justify-content-between align-items-center"
+                          >
+                            <span class="task-description">{{
+                              task.description
+                            }}</span>
+                            <span
+                              *ngIf="task.status === 1"
+                              class="badge bg-success rounded-pill"
+                              >&#10003;</span
+                            >
+                            <span
+                              *ngIf="task.status !== 1"
+                              class="badge bg-secondary rounded-pill"
+                              >&#10003;</span
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

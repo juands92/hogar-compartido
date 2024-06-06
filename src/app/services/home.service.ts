@@ -47,4 +47,34 @@ export class HomeService {
       );
     }
   }
+
+  public getHomes(): Observable<HomeResponse[]> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    const url = `${environment.BASE_URL}/homes`;
+    return this._http.get<HomeResponse[]>(url, { headers });
+  }
+
+  public assignHomeToUser(
+    userId: string,
+    homeId: string
+  ): Observable<ProfileResponse> {
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    const updateUserUrl = `${environment.BASE_URL}/users/${userId}`;
+    const updateBody = {
+      home: { id: homeId },
+    };
+    return this._http.put<ProfileResponse>(updateUserUrl, updateBody, {
+      headers,
+    });
+  }
 }
