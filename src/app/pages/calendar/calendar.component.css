@@ -21,14 +21,14 @@ b {
 .demo-app {
   display: flex;
   min-height: 100%;
-  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 14px;
+  background: var(--lightgrey-color);
 }
 
 .demo-app-sidebar {
   width: 300px;
   line-height: 1.5;
-  background: #eaf9ff;
+  background: var(--midgrey-color);
   border-right: 1px solid #d3e2e8;
 }
 

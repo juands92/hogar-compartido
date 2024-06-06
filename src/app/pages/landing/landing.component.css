@@ -1,5 +1,5 @@
-@media (max-width: 1600px) {
-  .zoom-out {
-    zoom: 70%;
-  }
+.logo {
+  width: 300px;
+  height: 300px;
+  filter: invert(55%) sepia(16%) saturate(1081%) hue-rotate(62deg) brightness(99%) contrast(86%);
 }
