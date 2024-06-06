@@ -83,10 +83,6 @@ a {
   margin: 0;
 }
 
-/* .collapse:not(.show) {
-  display: flex;
-} */
-
 .nav-item {
   display: flex;
   flex-direction: row;
