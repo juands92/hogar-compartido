@@ -83,9 +83,9 @@ a {
   margin: 0;
 }
 
-.collapse:not(.show) {
+/* .collapse:not(.show) {
   display: flex;
-}
+} */
 
 .nav-item {
   display: flex;
