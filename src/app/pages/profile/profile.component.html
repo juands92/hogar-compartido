@@ -6,12 +6,20 @@
     <div class="col">
       <div class="card shadow-sm">
         <div class="card-body">
-          <div *ngIf="successMessageVisible" style="z-index: 1000000"
-            class="alert alert-success position-fixed bottom-0 end-0 p-3" role="alert">
+          <div
+            *ngIf="successMessageVisible"
+            style="z-index: 1000000"
+            class="alert alert-success position-fixed bottom-0 end-0 p-3"
+            role="alert"
+          >
             ¡Tus cambios han sido guardados exitosamente!
           </div>
-          <div *ngIf="errorMessage" style="z-index: 1000000"
-            class="alert alert-danger position-fixed bottom-0 end-0 p-3" role="alert">
+          <div
+            *ngIf="errorMessage"
+            style="z-index: 1000000"
+            class="alert alert-danger position-fixed bottom-0 end-0 p-3"
+            role="alert"
+          >
             {{ errorMessage }}
           </div>
           <div class="px-2 py-2 my-5">
@@ -22,14 +30,33 @@
                   <div class="col-12 col-md-4 text-center mb-4">
                     <div class="mb-3">
                       <div class="image-container position-relative">
-                        <img [src]="imageSrc" width="200" height="200" class="rounded-circle" alt="User Profile" />
-                        <fa-icon *ngIf="isEditable" [icon]="faUpload" size="lg" class="icon-style"
-                          (click)="fileInput.click()">
+                        <img
+                          [src]="imageSrc"
+                          width="200"
+                          height="200"
+                          class="rounded-circle"
+                          alt="User Profile"
+                        />
+                        <fa-icon
+                          *ngIf="isEditable"
+                          [icon]="faUpload"
+                          size="lg"
+                          class="icon-style"
+                          (click)="fileInput.click()"
+                        >
                         </fa-icon>
-                        <input type="file" (change)="onFileChange($event)" hidden #fileInput />
+                        <input
+                          type="file"
+                          (change)="onFileChange($event)"
+                          hidden
+                          #fileInput
+                        />
                       </div>
                       <h3 class="mt-2">{{ userName }}</h3>
-                      <button class="btn btn-secondary btn-sm" (click)="toggleEdit()">
+                      <button
+                        class="btn btn-secondary btn-sm"
+                        (click)="toggleEdit()"
+                      >
                         Editar perfil
                       </button>
                     </div>
@@ -37,45 +64,117 @@
                   <!-- Form Section -->
                   <div class="col-12 col-md-8">
                     <div class="form-group mb-2">
-                      <label for="firstNameInput" class="form-label">Nombre</label>
-                      <input type="text" class="form-control" name="name" id="name" [(ngModel)]="UserModel.name"
-                        [readonly]="!isEditable" [disabled]="!isEditable" required />
+                      <label for="firstNameInput" class="form-label"
+                        >Nombre</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        id="name"
+                        [(ngModel)]="UserModel.name"
+                        [readonly]="!isEditable"
+                        [disabled]="!isEditable"
+                        required
+                      />
                     </div>
                     <div class="form-group mb-2">
-                      <label for="lastNameInput" class="form-label">Apellidos</label>
-                      <input type="text" class="form-control" name="lastName" id="lastName"
-                        [(ngModel)]="UserModel.lastName" [readonly]="!isEditable" [disabled]="!isEditable" required />
+                      <label for="lastNameInput" class="form-label"
+                        >Apellidos</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="lastName"
+                        id="lastName"
+                        [(ngModel)]="UserModel.lastName"
+                        [readonly]="!isEditable"
+                        [disabled]="!isEditable"
+                        required
+                      />
                     </div>
                     <div class="form-group mb-2">
                       <label for="emailInput" class="form-label">Email</label>
-                      <input type="email" class="form-control" name="email" id="email" [(ngModel)]="UserModel.email"
-                        required [readonly]="!isEditable" [disabled]="!isEditable" />
+                      <input
+                        type="email"
+                        class="form-control"
+                        name="email"
+                        id="email"
+                        [(ngModel)]="UserModel.email"
+                        required
+                        [readonly]="!isEditable"
+                        [disabled]="!isEditable"
+                      />
                     </div>
                     <div class="form-group mb-2">
-                      <label for="birthdayInput" class="form-label">Fecha de nacimiento</label>
-                      <input type="date" class="form-control" name="dateOfBirth" id="dateOfBirth"
-                        [(ngModel)]="UserModel.dateOfBirth" required [disabled]="!isEditable"
-                        [readonly]="!isEditable" />
+                      <label for="birthdayInput" class="form-label"
+                        >Fecha de nacimiento</label
+                      >
+                      <input
+                        type="date"
+                        class="form-control"
+                        name="dateOfBirth"
+                        id="dateOfBirth"
+                        [(ngModel)]="UserModel.dateOfBirth"
+                        required
+                        [disabled]="!isEditable"
+                        [readonly]="!isEditable"
+                      />
                     </div>
                     <div class="row align-items-end">
-                      <div *ngIf="UserModel.homeName; else createHome" class="col-md-9">
+                      <div
+                        *ngIf="UserModel.homeName; else homeOptions"
+                        class="col-md-9"
+                      >
                         <div class="form-group">
-                          <label for="homeNameInput" class="form-label">Tu casa</label>
-                          <input type="text" class="form-control" name="homeName" id="homeName"
-                            [(ngModel)]="UserModel.homeName" disabled readonly />
+                          <label for="homeNameInput" class="form-label"
+                            >Tu casa</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="homeName"
+                            id="homeName"
+                            [(ngModel)]="UserModel.homeName"
+                            disabled
+                            readonly
+                          />
                         </div>
                       </div>
-                      <ng-template #createHome>
+                      <ng-template #homeOptions>
                         <div class="col-md-9">
                           <div class="form-group">
-                            <span>Aún no tienes una casa asignada, </span><a routerLink="/home" class="fw-semibold">Crea una
-                              nueva</a>
+                            <span>Aún no tienes una casa asignada, </span>
+                            <a routerLink="/home" class="fw-semibold"
+                              >Crea una nueva</a
+                            >
+                            <div class="mt-2">
+                              <label for="existingHomes" class="form-label"
+                                >Asignar casa existente</label
+                              >
+                              <select
+                                class="form-select mb-2"
+                                id="existingHomes"
+                                (change)="assignHome($event)"
+                              >
+                                <option></option>
+                                <option
+                                  *ngFor="let home of homes"
+                                  [value]="home.id"
+                                >
+                                  {{ home.name }}
+                                </option>
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </ng-template>
                       <div class="col-md-3 text-md-end">
-                        <app-button (onClick)="updateUser(userForm, fileInput)" [disabled]="!isEditable"
-                          classes="btn btn-primary">
+                        <app-button
+                          (onClick)="updateUser(userForm, fileInput)"
+                          [disabled]="!isEditable"
+                          classes="btn btn-primary"
+                        >
                           Guardar
                         </app-button>
                       </div>

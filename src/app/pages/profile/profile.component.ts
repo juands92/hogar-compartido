@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { UserForm } from '../../models/Forms';
 import { UserService } from '../../services/user.service';
+import { HomeService } from '../../services/home.service'; // Importar HomeService
 import { NgForm } from '@angular/forms';
-import { ProfileResponse, UserBody } from '../../models/general-types';
+import {
+  ProfileResponse,
+  UserBody,
+  HomeResponse,
+  HomeBody,
+} from '../../models/general-types';
 import { HttpStatusCode } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { AppState, ProfileState } from '../../store/state/state';
@@ -30,12 +36,15 @@ export class ProfileComponent implements OnInit {
   imageSrc: string | ArrayBuffer | null = '';
   userId: string = '';
   userName: string = '';
+  homes: HomeResponse[] = []; // Lista de casas
+  homeId: string = '';
 
   isEditable = false;
 
   constructor(
     private store: Store<AppState>,
-    private _userService: UserService
+    private _userService: UserService,
+    private _homeService: HomeService // Inyectar HomeService
   ) {
     this.invalidCredentials = false;
   }
@@ -65,6 +74,10 @@ export class ProfileComponent implements OnInit {
     this.store.select(UserSelectors.selectUserId).subscribe((id) => {
       this.userId = id;
     });
+
+    this._homeService.getHomes().subscribe((homes: HomeResponse[]) => {
+      this.homes = homes;
+    });
   }
 
   toggleEdit() {
@@ -83,6 +96,15 @@ export class ProfileComponent implements OnInit {
   updateUser(f: NgForm, fileInput: any): void {
     if (!f.valid) return;
 
+    if (this.homeId) {
+      this._homeService.assignHomeToUser(this.userId, this.homeId).subscribe({
+        next: () => {
+          this.updateProfileState();
+        },
+        error: this.handleError.bind(this),
+      });
+    }
+
     this._userService
       .updateUser(this.userId, f.form.value as UserBody)
       .subscribe({
@@ -98,6 +120,30 @@ export class ProfileComponent implements OnInit {
   updateUserImage(fileInput: File): void {
     this._userService.updateUserImage(this.userId, fileInput).subscribe({
       next: this.handleSuccess.bind(this),
+      error: this.handleError.bind(this),
+    });
+  }
+
+  assignHome(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    if (selectElement.value) {
+      this.homeId = selectElement.value;
+    }
+  }
+
+  private updateProfileState() {
+    this._userService.getUser(this.userId).subscribe({
+      next: (response: ProfileResponse) => {
+        this.store.dispatch(
+          ProfileActions.updateHome({
+            home: response.home,
+          })
+        );
+        this.successMessageVisible = true;
+        setTimeout(() => {
+          this.successMessageVisible = false;
+        }, 4000);
+      },
       error: this.handleError.bind(this),
     });
   }
