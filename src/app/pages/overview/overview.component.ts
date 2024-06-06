@@ -137,21 +137,18 @@ export class OverviewComponent implements OnInit {
 
     const allExpensesMap = new Map<number, ExpensesResponse>();
 
-    // Add expenses from homeExpenses
     homeExpenses.forEach((expense) => {
       if (typeof expense !== 'number' && expense.id != null) {
         allExpensesMap.set(expense.id, expense);
       }
     });
 
-    // Add user expenses
     userExpenses.forEach((expense) => {
       if (expense.id != null) {
         allExpensesMap.set(expense.id, expense);
       }
     });
 
-    // Ensure all expenses are complete
     homeExpenses.forEach((expense) => {
       if (typeof expense === 'number' && !allExpensesMap.has(expense)) {
         const matchedExpense = userExpenses.find((e) => e.id === expense);
@@ -171,14 +168,12 @@ export class OverviewComponent implements OnInit {
 
     const allTasksMap = new Map<number, TasksResponse>();
 
-    // Add tasks from homeTasks
     homeTasks.forEach((task) => {
       if (task.id != null) {
         allTasksMap.set(task.id, task);
       }
     });
 
-    // Add user tasks
     userTasks.forEach((task) => {
       if (task.id != null) {
         allTasksMap.set(task.id, task);
@@ -189,23 +184,19 @@ export class OverviewComponent implements OnInit {
   }
 
   calculateExpenses(allHomeExpenses: ExpensesResponse[] = []): void {
-    // Inicializar las variables
     this.totalMeDeben = 0;
     this.totalDebo = 0;
     this.debts = [];
     this.credits = [];
 
-    // Calcular los gastos totales de la casa
     const totalHomeExpenses = allHomeExpenses.reduce(
       (sum, expense) => sum + expense.amount,
       0
     );
 
-    // Calcular la parte equitativa que cada usuario debería pagar
     const numberOfUsers = this.homeUsers.length;
     const equalShare = totalHomeExpenses / numberOfUsers;
 
-    // Crear un mapa de gastos por usuario
     const userExpensesMap = new Map<string, number>();
     allHomeExpenses.forEach((expense) => {
       const userId =
@@ -216,16 +207,13 @@ export class OverviewComponent implements OnInit {
       }
     });
 
-    // Inicializar variables para el usuario actual
     let totalOwedToUser = 0;
     let totalOwedByUser = 0;
 
-    // Ajuste para cada usuario
     this.homeUsers.forEach((user) => {
       const otherUserTotalExpenses = userExpensesMap.get(user.id) || 0;
 
       if (user.id === this.userId) {
-        // Si el usuario actual ha pagado más de su parte equitativa
         const userDifference = otherUserTotalExpenses - equalShare;
         if (userDifference > 0) {
           totalOwedToUser = userDifference;
@@ -233,7 +221,6 @@ export class OverviewComponent implements OnInit {
           totalOwedByUser = -userDifference;
         }
       } else {
-        // Para otros usuarios
         const otherUserDifference = equalShare - otherUserTotalExpenses;
         if (otherUserDifference > 0) {
           this.credits.push({ user, amount: otherUserDifference });
@@ -243,24 +230,19 @@ export class OverviewComponent implements OnInit {
       }
     });
 
-    // Eliminar duplicados y ajustar el totalOwedByUser correctamente
     this.credits = this.credits.filter((credit) => credit.amount > 0);
     this.debts = this.debts.filter((debt) => debt.amount > 0);
 
-    // Ajuste final para las cantidades totales
     this.totalMeDeben = totalOwedToUser;
     this.totalDebo = totalOwedByUser;
   }
 
   optimizeTransfers(): void {
-    // Inicializar listas de deudas y créditos
     const debts = [...this.debts];
     const credits = [...this.credits];
 
-    // Limpiar la lista de transferencias optimizadas
     this.optimizedTransfers = [];
 
-    // Algoritmo para minimizar las transferencias
     while (debts.length > 0 && credits.length > 0) {
       const debt = debts.shift();
       const credit = credits.shift();
@@ -268,18 +250,15 @@ export class OverviewComponent implements OnInit {
       if (debt && credit) {
         const amount = Math.min(debt.amount, credit.amount);
 
-        // Agregar la transferencia a la lista optimizada
         this.optimizedTransfers.push({
           from: debt.user,
           to: credit.user,
           amount: amount,
         });
 
-        // Actualizar las cantidades restantes de deuda y crédito
         debt.amount -= amount;
         credit.amount -= amount;
 
-        // Reinsertar si aún queda deuda o crédito
         if (debt.amount > 0) {
           debts.unshift(debt);
         }
@@ -291,7 +270,6 @@ export class OverviewComponent implements OnInit {
   }
 
   assignTasks(tasks: TasksResponse[]): void {
-    // Crear un mapa de tareas por usuario
     const userTasksMap = new Map<string, TasksResponse[]>();
     tasks.forEach((task) => {
       const userId = typeof task.user === 'string' ? task.user : task.user.id;
@@ -301,7 +279,6 @@ export class OverviewComponent implements OnInit {
       userTasksMap.get(userId)?.push(task);
     });
 
-    // Separar las tareas entre las propias y las de los demás
     this.myTasks = userTasksMap.get(this.userId) || [];
     this.otherTasks = this.homeUsers
       .filter((user) => user.id !== this.userId && userTasksMap.has(user.id))
