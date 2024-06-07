@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
   faCircleCheck,
   faTrash,
@@ -9,11 +9,7 @@ import { Store } from '@ngrx/store';
 import { AppState, ProfileState } from '../../store/state/state';
 import * as ProfileSelectors from '../../store/selectors/profile.selectors';
 import * as UserSelectors from '../../store/selectors/user.selectors';
-import {
-  ProfileResponse,
-  TaskBody,
-  ExpensesResponse,
-} from '../../models/general-types';
+import { ProfileResponse, ExpensesResponse } from '../../models/general-types';
 import { format, parse } from 'date-fns';
 import { NgForm } from '@angular/forms';
 import { ExpensesService } from '../../services/expenses.service';
@@ -45,8 +41,7 @@ export class ExpensesComponent implements OnInit {
     private store: Store<AppState>,
     private _expensesService: ExpensesService,
     private _userService: UserService,
-    private cdr: ChangeDetectorRef,
-    private zone: NgZone
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -98,12 +93,22 @@ export class ExpensesComponent implements OnInit {
   }
 
   deleteExpense(id: number) {
-    this._expensesService.deleteExpense(id).subscribe({
-      next: () => {
-        this.handleSuccess();
-      },
-      error: this.handleError.bind(this),
-    });
+    const expenseIndex = this.expenses.findIndex(
+      (expense) => expense.id === id
+    );
+
+    if (this.expenses[expenseIndex].isNew) {
+      this.expenses.splice(expenseIndex, 1);
+      this.cdr.detectChanges();
+    } else {
+      this._expensesService.deleteExpense(id).subscribe({
+        next: () => {
+          this.expenses.splice(expenseIndex, 1);
+          this.handleSuccess();
+        },
+        error: this.handleError.bind(this),
+      });
+    }
   }
 
   markAsEdited(

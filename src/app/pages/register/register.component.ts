@@ -39,7 +39,7 @@ export class RegisterComponent {
             id: response.id,
           })
         );
-        this.router.navigate(['/overview']);
+        this.router.navigate(['/profile']);
       },
       error: this.handleError.bind(this),
     });

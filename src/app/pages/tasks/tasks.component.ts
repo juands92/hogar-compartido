@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
   faCircleCheck,
   faTrash,
@@ -40,7 +40,8 @@ export class TasksComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private _tasksService: TasksService,
-    private _userService: UserService
+    private _userService: UserService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -92,12 +93,20 @@ export class TasksComponent implements OnInit {
   }
 
   deleteTask(id: number) {
-    this._tasksService.deleteTask(id).subscribe({
-      next: () => {
-        this.handleSuccess();
-      },
-      error: this.handleError.bind(this),
-    });
+    const taskIndex = this.tasks.findIndex((task) => task.id === id);
+
+    if (this.tasks[taskIndex].isNew) {
+      this.tasks.splice(taskIndex, 1);
+      this.cdr.detectChanges();
+    } else {
+      this._tasksService.deleteTask(id).subscribe({
+        next: () => {
+          this.tasks.splice(taskIndex, 1);
+          this.handleSuccess();
+        },
+        error: this.handleError.bind(this),
+      });
+    }
   }
 
   markAsEdited(task: TasksResponse & { isNew?: boolean; isEdited?: boolean }) {

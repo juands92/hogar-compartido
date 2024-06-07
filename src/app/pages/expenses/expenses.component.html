@@ -6,73 +6,134 @@
     <div class="col">
       <div class="card shadow-sm">
         <div class="card-body">
-          <div *ngIf="successMessageVisible" class="alert alert-success position-fixed bottom-0 end-0 p-3" role="alert"
-            style="z-index: 1000000">
-            ¡Tu gasto ha sido guardada exitosamente!
+          <div
+            *ngIf="successMessageVisible"
+            class="alert alert-success position-fixed bottom-0 end-0 p-3"
+            role="alert"
+            style="z-index: 1000000"
+          >
+            ¡Tu gasto ha sido guardado exitosamente!
           </div>
-          <div *ngIf="errorMessage" style="z-index: 1000000"
-            class="alert alert-danger position-fixed bottom-0 end-0 p-3" role="alert">
+          <div
+            *ngIf="errorMessage"
+            style="z-index: 1000000"
+            class="alert alert-danger position-fixed bottom-0 end-0 p-3"
+            role="alert"
+          >
             {{ errorMessage }}
           </div>
           <div class="px-2 py-2 my-5">
             <div class="mx-auto">
-              <form #expenseForm="ngForm" (ngSubmit)="saveExpenses(expenseForm)">
+              <!-- Botones Crear nuevo gasto y Guardar -->
+              <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-end">
+                  <button
+                    type="button"
+                    class="btn btn-secondary me-2"
+                    (click)="addExpense()"
+                  >
+                    Crear nuevo gasto
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    (click)="saveExpenses(expenseForm)"
+                  >
+                    Guardar
+                  </button>
+                </div>
+              </div>
+              <!-- Formulario -->
+              <form
+                #expenseForm="ngForm"
+                (ngSubmit)="saveExpenses(expenseForm)"
+              >
                 <div class="col-md-12 mx-auto">
                   <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
                           <th class="table-head">Descripción</th>
-                          <th (click)="sortByCreationDate()" class="table-head" style="cursor: pointer">
+                          <th
+                            (click)="sortByCreationDate()"
+                            class="table-head"
+                            style="cursor: pointer"
+                          >
                             Fecha de creación
-                            <fa-icon [icon]="
+                            <fa-icon
+                              [icon]="
                                 sortCreationDateAsc
                                   ? faChevronDown
                                   : faChevronUp
-                              "></fa-icon>
+                              "
+                            ></fa-icon>
                           </th>
-                          <th (click)="sortByAmount()" class="table-head" style="cursor: pointer">
+                          <th
+                            (click)="sortByAmount()"
+                            class="table-head"
+                            style="cursor: pointer"
+                          >
                             Cantidad
-                            <fa-icon [icon]="
+                            <fa-icon
+                              [icon]="
                                 sortAmountAsc ? faChevronDown : faChevronUp
-                              "></fa-icon>
+                              "
+                            ></fa-icon>
                           </th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let expense of expenses; trackBy: trackByFn">
+                        <tr
+                          *ngFor="let expense of expenses; trackBy: trackByFn"
+                        >
                           <td>
-                            <input type="text" class="form-control" [(ngModel)]="expense.description"
-                              (ngModelChange)="markAsEdited(expense)" name="description-{{ expense.id }}" required />
+                            <input
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="expense.description"
+                              (ngModelChange)="markAsEdited(expense)"
+                              name="description-{{ expense.id }}"
+                              required
+                            />
                           </td>
                           <td>
-                            <input type="date" class="form-control" [(ngModel)]="expense.dateCreated"
-                              (ngModelChange)="markAsEdited(expense)" name="dateCreated-{{ expense.id }}" required />
+                            <input
+                              type="date"
+                              class="form-control"
+                              [(ngModel)]="expense.dateCreated"
+                              (ngModelChange)="markAsEdited(expense)"
+                              name="dateCreated-{{ expense.id }}"
+                              required
+                            />
                           </td>
                           <td>
-                            <input type="number" class="form-control" [(ngModel)]="expense.amount"
-                              (ngModelChange)="markAsEdited(expense)" name="amount-{{ expense.id }}" required />
+                            <input
+                              type="number"
+                              class="form-control"
+                              [(ngModel)]="expense.amount"
+                              (ngModelChange)="markAsEdited(expense)"
+                              name="amount-{{ expense.id }}"
+                              required
+                            />
                           </td>
                           <td class="text-center">
-                            <button type="button" class="btn btn-sm" (click)="deleteExpense(expense.id)"
-                              style="padding: 7px">
-                              <fa-icon [icon]="faTrash" size="lg" style="color: red"></fa-icon>
+                            <button
+                              type="button"
+                              class="btn btn-sm"
+                              (click)="deleteExpense(expense.id)"
+                              style="padding: 7px"
+                            >
+                              <fa-icon
+                                [icon]="faTrash"
+                                size="lg"
+                                style="color: red"
+                              ></fa-icon>
                             </button>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-12 d-flex justify-content-end">
-                      <button type="button" class="btn btn-secondary me-2" (click)="addExpense()">
-                        Crear nuevo gasto
-                      </button>
-                      <button type="submit" class="btn btn-primary">
-                        Guardar
-                      </button>
-                    </div>
                   </div>
                 </div>
               </form>

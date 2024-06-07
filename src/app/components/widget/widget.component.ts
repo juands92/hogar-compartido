@@ -6,6 +6,7 @@ import {
   faListCheck,
   faMoneyBill,
 } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 type IconKeys = 'faHome' | 'faCalendar' | 'faMoneyBill' | 'faListCheck';
 
@@ -24,8 +25,17 @@ export class WidgetComponent {
 
   @Input() headerTitle: string = '';
   @Input() icon: IconKeys = 'faHome';
+  @Input() link: string = '';
+
+  constructor(private router: Router) {}
 
   getIcon(): IconDefinition {
     return this.icons[this.icon];
+  }
+
+  navigate() {
+    if (this.link) {
+      this.router.navigate([this.link]);
+    }
   }
 }

@@ -172,7 +172,7 @@
                       <div class="col-md-3 text-md-end">
                         <app-button
                           (onClick)="updateUser(userForm, fileInput)"
-                          [disabled]="!isEditable"
+                          [disabled]="!isEditable && !isHomeSelected"
                           classes="btn btn-primary"
                         >
                           Guardar

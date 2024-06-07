@@ -36,45 +36,64 @@ export class ProfileComponent implements OnInit {
   imageSrc: string | ArrayBuffer | null = '';
   userId: string = '';
   userName: string = '';
-  homes: HomeResponse[] = []; // Lista de casas
+  homes: HomeResponse[] = [];
   homeId: string = '';
 
   isEditable = false;
+  isHomeSelected = false;
 
   constructor(
     private store: Store<AppState>,
     private _userService: UserService,
-    private _homeService: HomeService // Inyectar HomeService
+    private _homeService: HomeService
   ) {
     this.invalidCredentials = false;
   }
 
   ngOnInit(): void {
-    this.store
-      .select(ProfileSelectors.selectProfile)
-      .subscribe((profile: ProfileState) => {
-        this.UserModel = {
-          name: profile.name,
-          lastName: profile.lastName,
-          email: profile.email,
-          dateOfBirth: format(
-            parse(profile.dateOfBirth, 'dd/MM/yyyy', new Date()),
-            'yyyy-MM-dd'
-          ),
-          homeName: profile.home?.name,
-        };
-
-        this.userName = profile.name;
-        profile.profileImage
-          ? (this.imageSrc = 'data:image/jpeg;base64,' + profile.profileImage)
-          : (this.imageSrc =
-              'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1114445501.jpg');
-      });
-
     this.store.select(UserSelectors.selectUserId).subscribe((id) => {
       this.userId = id;
-    });
 
+      if (this.userId) {
+        this._userService.getUser(this.userId).subscribe({
+          next: (response: ProfileResponse) => {
+            this.store.dispatch(
+              ProfileActions.update({
+                name: response.name,
+                lastName: response.lastName,
+                email: response.email,
+                dateOfBirth: response.dateOfBirth,
+                profileImage: response.profileImage,
+                home: response.home,
+                tasks: response.tasks,
+                expenses: response.expenses,
+              })
+            );
+
+            this.UserModel = {
+              name: response.name,
+              lastName: response.lastName,
+              email: response.email,
+              dateOfBirth: format(
+                parse(response.dateOfBirth, 'dd/MM/yyyy', new Date()),
+                'yyyy-MM-dd'
+              ),
+              homeName: response.home?.name,
+            };
+
+            this.userName = response.name;
+            response.profileImage
+              ? (this.imageSrc =
+                  'data:image/jpeg;base64,' + response.profileImage)
+              : (this.imageSrc =
+                  'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1114445501.jpg');
+          },
+          error: (error) => {
+            console.log('Error ' + JSON.stringify(error));
+          },
+        });
+      }
+    });
     this._homeService.getHomes().subscribe((homes: HomeResponse[]) => {
       this.homes = homes;
     });
@@ -93,28 +112,30 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  updateUser(f: NgForm, fileInput: any): void {
-    if (!f.valid) return;
+  async updateUser(f: NgForm, fileInput: any): Promise<void> {
+    if (!this.isEditable && !this.isHomeSelected) return;
 
     if (this.homeId) {
       this._homeService.assignHomeToUser(this.userId, this.homeId).subscribe({
         next: () => {
-          this.updateProfileState();
+          this.updateProfileHomeState();
         },
         error: this.handleError.bind(this),
       });
     }
 
-    this._userService
-      .updateUser(this.userId, f.form.value as UserBody)
-      .subscribe({
-        next: (response: ProfileResponse) => {
-          this.handleSuccess(response);
-          const file = fileInput.files?.item(0) || null;
-          if (file) this.updateUserImage(file);
-        },
-        error: this.handleError.bind(this),
-      });
+    if (f.valid) {
+      this._userService
+        .updateUser(this.userId, f.form.value as UserBody)
+        .subscribe({
+          next: (response: ProfileResponse) => {
+            this.handleSuccess(response);
+            const file = fileInput.files?.item(0) || null;
+            if (file) this.updateUserImage(file);
+          },
+          error: this.handleError.bind(this),
+        });
+    }
   }
 
   updateUserImage(fileInput: File): void {
@@ -128,10 +149,13 @@ export class ProfileComponent implements OnInit {
     const selectElement = event.target as HTMLSelectElement;
     if (selectElement.value) {
       this.homeId = selectElement.value;
+      this.isHomeSelected = true;
+    } else {
+      this.isHomeSelected = false;
     }
   }
 
-  private updateProfileState() {
+  private updateProfileHomeState() {
     this._userService.getUser(this.userId).subscribe({
       next: (response: ProfileResponse) => {
         this.store.dispatch(
@@ -139,6 +163,12 @@ export class ProfileComponent implements OnInit {
             home: response.home,
           })
         );
+
+        this.UserModel = {
+          ...this.UserModel,
+          homeName: response.home?.name,
+        };
+
         this.successMessageVisible = true;
         setTimeout(() => {
           this.successMessageVisible = false;
