@@ -21,13 +21,14 @@
   box-sizing: border-box;
 }
 
-html,
+html {
+  height: 100vh;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}
 body {
   background: var(--background-color);
-  height: 100vh;
   height: 100%;
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
 }
 
 /* Estilos de fondos */
