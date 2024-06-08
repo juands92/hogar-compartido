@@ -138,7 +138,7 @@ export class OverviewComponent implements OnInit {
     events: EventResponse[]
   ): { date: string; events: EventResponse[] }[] {
     const grouped = events.reduce((acc, event) => {
-      const date = moment(event.date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      const { date } = event;
       if (!acc[date]) {
         acc[date] = [];
       }
