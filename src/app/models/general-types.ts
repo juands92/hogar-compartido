@@ -29,6 +29,12 @@ export interface TaskBody {
   user: { id: string };
 }
 
+export interface EventBody {
+  title: string;
+  date: string;
+  home: { id: string };
+}
+
 export interface ExpenseBody {
   description: string;
   dateCreated: string;
@@ -60,7 +66,7 @@ export interface HomeResponse {
   address: string;
   users: string[] | ProfileResponse[];
   expenses: ExpensesResponse[];
-  events: string[];
+  events: EventResponse[];
   tasks: TasksResponse[];
 }
 
@@ -71,6 +77,13 @@ export interface TasksResponse {
   status: number;
   home: { id: string };
   user: { id: string };
+}
+
+export interface EventResponse {
+  id: number;
+  title: string;
+  date: string;
+  home: { id: string };
 }
 
 export interface ExpensesResponse {

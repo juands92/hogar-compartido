@@ -8,12 +8,14 @@ import {
   HomeUser,
   ExpensesResponse,
   TasksResponse,
+  EventResponse,
 } from '../../models/general-types';
 import { Store } from '@ngrx/store';
 import * as UserSelectors from '../../store/selectors/user.selectors';
 import { AppState } from '../../store/state/state';
 import { UserService } from '../../services/user.service';
 import * as ProfileActions from '../../store/actions/profile.actions';
+import moment from 'moment';
 
 @Component({
   selector: 'app-overview',
@@ -34,6 +36,7 @@ export class OverviewComponent implements OnInit {
   myTasks: TasksResponse[] = [];
   otherTasks: { user: HomeUser; tasks: TasksResponse[] }[] = [];
   taskExpandState: { [key: string]: boolean } = {};
+  groupedEvents: { date: string; events: EventResponse[] }[] = []; // Variable para almacenar eventos agrupados y ordenados
 
   constructor(
     private _userService: UserService,
@@ -106,6 +109,10 @@ export class OverviewComponent implements OnInit {
               });
             }
 
+            this.groupedEvents = this.groupAndSortEvents(
+              this.home?.events || []
+            );
+
             this.store.dispatch(
               ProfileActions.update({
                 name: response.name,
@@ -125,6 +132,26 @@ export class OverviewComponent implements OnInit {
         });
       }
     });
+  }
+
+  groupAndSortEvents(
+    events: EventResponse[]
+  ): { date: string; events: EventResponse[] }[] {
+    const grouped = events.reduce((acc, event) => {
+      const date = moment(event.date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(event);
+      return acc;
+    }, {} as { [key: string]: EventResponse[] });
+
+    return Object.keys(grouped)
+      .sort()
+      .map((date) => ({
+        date,
+        events: grouped[date],
+      }));
   }
 
   combineExpenses(

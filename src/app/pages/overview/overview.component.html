@@ -37,46 +37,17 @@
       link="/calendar"
     >
       <div class="d-grid gap-3 mt-3">
-        <ul class="list-group">
-          <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-semibold border-end border-2 pe-2">01/01/2024</span>
-            <span class="ps-2">Evento 1</span>
-          </li>
-          <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-semibold border-end border-2 pe-2">01/01/2024</span>
-            <span class="ps-2">Evento 2</span>
-          </li>
-          <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-semibold border-end border-2 pe-2">01/01/2024</span>
-            <span class="ps-2">Evento 4</span>
-          </li>
-        </ul>
-        <ul class="list-group">
-          <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-semibold border-end border-2 pe-2">02/01/2024</span>
-            <span class="ps-2">Evento 4</span>
-          </li>
-        </ul>
-        <ul class="list-group">
-          <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-semibold border-end border-2 pe-2">03/01/2024</span>
-            <span class="ps-2">Evento 5</span>
-          </li>
-          <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-semibold border-end border-2 pe-2">03/01/2024</span>
-            <span class="ps-2">Evento 6</span>
-          </li>
-        </ul>
-        <ul class="list-group">
-          <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-semibold border-end border-2 pe-2">04/01/2024</span>
-            <span class="ps-2">Evento 7</span>
-          </li>
-          <li class="list-group-item list-group-item-action cursor-pointer">
-            <span class="fw-semibold border-end border-2 pe-2">05/01/2024</span>
-            <span class="ps-2">Evento 8</span>
-          </li>
-        </ul>
+        <div *ngFor="let group of groupedEvents">
+          <h6 class="fw-semibold">{{ group.date }}</h6>
+          <ul class="list-group">
+            <li
+              *ngFor="let event of group.events"
+              class="list-group-item list-group-item-action cursor-pointer"
+            >
+              <span class="ps-2">{{ event.title }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </app-widget>
     <app-widget
@@ -213,7 +184,7 @@
             </div>
           </div>
         </div>
-      </div></app-widget
-    >
+      </div>
+    </app-widget>
   </div>
 </div>
