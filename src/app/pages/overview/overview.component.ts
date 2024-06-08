@@ -25,6 +25,7 @@ import moment from 'moment';
 })
 export class OverviewComponent implements OnInit {
   user$?: Observable<UserBody>;
+  userName?: string;
   home?: HomeResponse;
   homeUsers: HomeUser[] = [];
   userId: string = '';
@@ -51,6 +52,7 @@ export class OverviewComponent implements OnInit {
         this._userService.getUser(this.userId).subscribe({
           next: (response: ProfileResponse) => {
             this.home = response.home;
+            this.userName = response.name;
 
             if (this.home?.users) {
               const userObservables = this.home.users.map((user) => {
