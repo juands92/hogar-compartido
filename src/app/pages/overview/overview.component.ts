@@ -139,6 +139,7 @@ export class OverviewComponent implements OnInit {
   groupAndSortEvents(
     events: EventResponse[]
   ): { date: string; events: EventResponse[] }[] {
+    const today = moment();
     const grouped = events.reduce((acc, event) => {
       const { date } = event;
       if (!acc[date]) {
@@ -149,7 +150,13 @@ export class OverviewComponent implements OnInit {
     }, {} as { [key: string]: EventResponse[] });
 
     return Object.keys(grouped)
-      .sort()
+      .sort((a, b) => {
+        const dateA = moment(a);
+        const dateB = moment(b);
+        const diffA = Math.abs(today.diff(dateA, 'days'));
+        const diffB = Math.abs(today.diff(dateB, 'days'));
+        return diffA - diffB;
+      })
       .map((date) => ({
         date,
         events: grouped[date],
